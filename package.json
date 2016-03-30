@@ -1,0 +1,28 @@
+{
+  "name": "sudoku-js",
+  "version": "0.0.0",
+  "description": "Sudoku game",
+  "main": "gulpfile.js",
+  "devDependencies": {
+    "better-console": "0.2.4",
+    "gulp": "3.9.1",
+    "gulp-cli": "^1.2.1",
+    "gulp-jasmine": "2.3.0"
+  },
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/serchavalos/sudoku-js.git"
+  },
+  "author": {
+    "name": "Sergio Avalos",
+    "email": "sergio.avalos@gmail.com"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/serchavalos/sudoku-js/issues"
+  },
+  "homepage": "https://github.com/serchavalos/sudoku-js#readme"
+}
