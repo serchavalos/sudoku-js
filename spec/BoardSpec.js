@@ -53,4 +53,58 @@ describe('A board', function() {
 		expect( board.getValuesForRow(9) ).toEqual([7,8,9,7,8,9,7,8,9]);
 
 	});
+
+	describe('#getValue', function() {
+
+		it('should be able to get a value in cells', function() {
+			expect( board.getValue(1, 1) ).toBe(1);
+		});
+
+		it('should be return null if empty', function() {
+			var board = new Board();
+			expect( board.getValue(2, 2) ).toBe(null);
+		});
+
+	});
+
+	describe('#setValue', function() {
+
+		it('should set a value for an existing cell', function() {
+
+			var board = new Board();
+			board.setValue(5, 5, 9);
+			expect( board.getValue(5, 5)).toBe(9);
+
+		});
+
+		it('should throw an error when setting an unexisting cell', function() {
+
+			expect(function() {
+
+				board.setValue(1, 200, 1);
+
+			}).toThrowError('Invalid column given. Provide numbers between 1 - 9');
+
+			expect(function() {
+
+				board.setValue(100, 2, 1);
+
+			}).toThrowError('Invalid row given. Provide numbers between 1 - 9');
+
+		});
+
+		it('should throw an error when setting an existing cell with a duplicated value', function() {
+
+			expect(function() {
+
+				board.setValue(1, 1, 9);
+
+			}).toThrowError('Invalid value. It is already duplicated');
+
+
+		});
+
+
+	});
+
 });

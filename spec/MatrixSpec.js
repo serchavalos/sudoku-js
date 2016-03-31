@@ -1,5 +1,7 @@
 var Cell = require('../src/js/Cell.js');
 var Matrix = require('../src/js/Matrix.js');
+var IndexError = require('../src/js/exceptions/IndexError.js');
+var DuplicatedValueError = require('../src/js/exceptions/DuplicatedValueError.js');
 
 describe('A matrix', function(){
 	var matrix;
@@ -36,23 +38,41 @@ describe('A matrix', function(){
 
 	it('should throw an exception if the cell does not exist or new value is not number', function() {
 		expect(function() {
-			matrix.setValueOn('111', 1);
-		}).toThrowError('Invalid cell index');
+			matrix.setValue('111', 1);
+		}).toThrow(new IndexError());
 
 		expect(function() {
-			matrix.setValueOn(1, null);
+			matrix.setValue(1, null);
 		}).toThrowError();
+	});
+
+	describe('#getValue', function() {
+
+		it('should return the value', function() {
+			expect(matrix.getValue(6)).toEqual(7);
+		});
+
+		it('should return null if the cell is empty', function() {
+			var matrix = new Matrix();
+			expect(matrix.getValue(1)).toBe(null);
+		});
+
+		it('should throw an error if the function does not exist', function() {
+			expect(function() {
+				matrix.getValue(1000);
+			}).toThrow(new IndexError());
+		});
+
 	});
 
 	it('should get the list of values added', function() {
 		expect(matrix.getValues()).toEqual([1,2,3,4,5,6,7,8,9]);
 	});
 
-
 	it('should throw an exception if the value of a cell is repated', function() {
 		expect(function() {
-			matrix.setValueOn(0, 1);
-			matrix.setValueOn(1, 1);
-		}).toThrowError('Duplicated value added of value "1"');
+			matrix.setValue(0, 1);
+			matrix.setValue(1, 1);
+		}).toThrow(new DuplicatedValueError());
 	});
 });

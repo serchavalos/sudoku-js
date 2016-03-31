@@ -4,12 +4,12 @@ var console = require('better-console');
 
 gulp.task('test', function() {
 	gulp.src('spec/*Spec.js')
-		.pipe(jasmine())
+		.pipe(jasmine().on('error', function(){}))
 	;
 });
 
 gulp.task('watch', function() {
-	var watcher = gulp.watch(['lib/*.js', 'spec/*Spec.js'], ['test']);
+	var watcher = gulp.watch(['src/js/*', 'spec/*'], ['test']);
 	watcher.on('change', console.clear);
 });
 

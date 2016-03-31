@@ -1,3 +1,7 @@
+var Matrix = require('./Matrix');
+var IndexError = require('./exceptions/IndexError.js');
+var DuplicatedValueError = require('./exceptions/DuplicatedValueError.js');
+
 var Board = function Board(matrices){
 	this.columnIndices = [
 		[0, 3, 6],
@@ -9,7 +13,12 @@ var Board = function Board(matrices){
 		[3, 4, 5],
 		[6, 7, 8],
 	];
-	this.matrices = matrices
+
+	this.matrices = [];
+	for (var i = 0, matrix = null; i < 9; i++) {
+		matrix = matrices && /Matrix/.test(matrices[i].constructor) ? matrices[i] : new Matrix();
+		this.matrices[i] = matrix;
+	}
 };
 
 Board.prototype.getValuesForColumn = function getValuesForColumn(column) {
@@ -54,6 +63,31 @@ Board.prototype.getValuesForRow = function getValuesForRow(row) {
 	});
 
 	return allValues;
+};
+
+Board.prototype.getValue = function getValue(col, row) {
+	var matrix = this.matrices[row - 1];
+
+	return matrix.getValue(col - 1);
+};
+
+Board.prototype.setValue = function setValue(col, row, value) {
+	if (typeof this.matrices[row - 1] === 'undefined') {
+		throw new Error('Invalid column given. Provide numbers between 1 - 9');
+	}
+
+	var matrix = this.matrices[row - 1];
+	
+	try {
+		matrix.setValue(col - 1, value);
+	} catch (err) {
+		if (err instanceof IndexError) {
+			throw new Error('Invalid row given. Provide numbers between 1 - 9');
+		} else if (err instanceof DuplicatedValueError) {
+			throw new Error('Invalid value. It is already duplicated');
+		}
+	}
+	
 };
 
 module.exports = Board;
