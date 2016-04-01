@@ -1,0 +1,30 @@
+body {
+  font-family: arial;
+}
+
+.sudoku-matrix {
+  width: 150px;
+  border: 1px solid black;
+  overflow:auto
+}
+
+.sudoku-cell {
+  float: left;
+  width: 49px;
+  height: 49px;
+  border-left: 1px solid black;
+  border-top: 1px solid black;
+  text-align: center;
+}
+
+.sudoku-cell:nth-child(1),
+.sudoku-cell:nth-child(2),
+.sudoku-cell:nth-child(3) {
+  border-top: none;
+}
+
+.sudoku-cell:nth-child(1),
+.sudoku-cell:nth-child(4),
+.sudoku-cell:nth-child(7) {
+  border-left: none;
+}

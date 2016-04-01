@@ -7,6 +7,7 @@ var app = express();
 app.engine('mustache', mustacheExpress());
 app.set('view engine', 'mustache');
 app.set('views', __dirname + '/views/');
+app.use(express.static(__dirname + '/public/'));
 
 app.get('/', function(req, res) {
   for (var i = 1, values = []; i <= 9; i++) {

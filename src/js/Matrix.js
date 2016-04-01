@@ -42,7 +42,7 @@ Matrix.prototype.setValue = function setValueOn(index, value) {
 };
 
 Matrix.prototype.render = function render() {
-	var html = '<div>';
+	var html = '<div class="sudoku-matrix">';
 	this.cells.forEach(function(cell) {
 		html += cell.render();
 	});

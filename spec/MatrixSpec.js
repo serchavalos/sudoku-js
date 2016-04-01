@@ -88,9 +88,9 @@ describe('A matrix', function(){
     });
 
     it('should return a view of a matrix and update its value', function() {
-      var expectedHtml = '<div>';
+      var expectedHtml = '<div class="sudoku-matrix">';
       for (var i = 1; i <= 9; i++) {
-        expectedHtml += '<div>' + i + '</div>'
+        expectedHtml += '<div class="sudoku-cell">' + i + '</div>'
       }
       expectedHtml += '</div>';
 

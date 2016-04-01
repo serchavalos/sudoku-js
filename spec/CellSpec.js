@@ -58,15 +58,15 @@ describe('A cell', function() {
   describe('#render', function() {
     it('should return a view of a cell', function() {
       cell.setValue(6);
-      expect( cell.render() ).toEqual('<div>6</div>');
+      expect( cell.render() ).toEqual('<div class="sudoku-cell">6</div>');
     });
 
     it('should update the view when a cell is updated', function() {
       cell.setValue(8);
-      expect( cell.render() ).toEqual('<div>8</div>');
+      expect( cell.render() ).toEqual('<div class="sudoku-cell">8</div>');
 
       cell.setValue(9);
-      expect( cell.render() ).toEqual('<div>9</div>');
+      expect( cell.render() ).toEqual('<div class="sudoku-cell">9</div>');
     });
   });
 
