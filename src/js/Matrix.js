@@ -41,4 +41,14 @@ Matrix.prototype.setValue = function setValueOn(index, value) {
 	this.cells[index].setValue(value);
 };
 
+Matrix.prototype.render = function render() {
+	var html = '<div>';
+	this.cells.forEach(function(cell) {
+		html += cell.render();
+	});
+	html += '</div>';
+
+	return html;
+};
+
 module.exports = Matrix;

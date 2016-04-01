@@ -7,8 +7,8 @@ describe('A matrix', function(){
 	var matrix;
 
 	beforeEach(function() {
-		for (var i = 0, values = []; i < 9; i++) {
-			values.push(new Cell(i + 1));
+		for (var i = 1, values = []; i <= 9; i++) {
+			values.push(new Cell(i));
 		}
 
 		matrix = new Matrix(values);
@@ -36,18 +36,7 @@ describe('A matrix', function(){
 		expect(matrix.cells[0].getValue()).toBe(1);
 	});
 
-	it('should throw an exception if the cell does not exist or new value is not number', function() {
-		expect(function() {
-			matrix.setValue('111', 1);
-		}).toThrow(new IndexError());
-
-		expect(function() {
-			matrix.setValue(1, null);
-		}).toThrowError();
-	});
-
 	describe('#getValue', function() {
-
 		it('should return the value', function() {
 			expect(matrix.getValue(6)).toEqual(7);
 		});
@@ -65,14 +54,48 @@ describe('A matrix', function(){
 
 	});
 
-	it('should get the list of values added', function() {
-		expect(matrix.getValues()).toEqual([1,2,3,4,5,6,7,8,9]);
+	describe('#setValue', function() {
+		it('should throw an exception if the cell does not exist or new value is not number', function() {
+			expect(function() {
+				matrix.setValue('111', 1);
+			}).toThrow(new IndexError());
+
+			expect(function() {
+				matrix.setValue(1, null);
+			}).toThrowError();
+		});
+
+		it('should throw an exception if the value of a cell is repated', function() {
+			expect(function() {
+				matrix.setValue(0, 1);
+				matrix.setValue(1, 1);
+			}).toThrow(new DuplicatedValueError());
+		});
 	});
 
-	it('should throw an exception if the value of a cell is repated', function() {
-		expect(function() {
-			matrix.setValue(0, 1);
-			matrix.setValue(1, 1);
-		}).toThrow(new DuplicatedValueError());
+	describe('#getValues', function () {
+		it('should get the list of values added', function() {
+			expect(matrix.getValues()).toEqual([1,2,3,4,5,6,7,8,9]);
+		});
 	});
+
+  describe('#render', function() {
+    beforeEach(function() {
+      for (var i = 1, cellsArr = []; i <= 9; i++) {
+        cellsArr.push(new Cell(i));
+      }
+      matrix = new Matrix(cellsArr);
+    });
+
+    it('should return a view of a matrix and update its value', function() {
+      var expectedHtml = '<div>';
+      for (var i = 1; i <= 9; i++) {
+        expectedHtml += '<div>' + i + '</div>'
+      }
+      expectedHtml += '</div>';
+
+      expect( matrix.render() ).toEqual( expectedHtml );
+    });
+  });
+
 });

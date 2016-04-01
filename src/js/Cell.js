@@ -18,12 +18,16 @@ Cell.prototype.setValue = function(value) {
 	this.value = value;
 };
 
-Cell.prototype.getValue = function() {
+Cell.prototype.getValue = function getValue() {
 	return this.value;
 };
 
-Cell.prototype.isEmpty = function() {
+Cell.prototype.isEmpty = function isEmpty() {
 	return (this.value === null);
 }
+
+Cell.prototype.render = function render() {
+	return '<div>' + this.getValue() + '</div>';
+};
 
 module.exports = Cell;
