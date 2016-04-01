@@ -80,13 +80,6 @@ describe('A matrix', function(){
 	});
 
   describe('#render', function() {
-    beforeEach(function() {
-      for (var i = 1, cellsArr = []; i <= 9; i++) {
-        cellsArr.push(new Cell(i));
-      }
-      matrix = new Matrix(cellsArr);
-    });
-
     it('should return a view of a matrix and update its value', function() {
       var expectedHtml = '<div class="sudoku-matrix">';
       for (var i = 1; i <= 9; i++) {

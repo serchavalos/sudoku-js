@@ -1,6 +1,7 @@
 var Cell = require('../src/js/Cell.js');
 var Matrix = require('../src/js/Matrix.js');
 var Board = require('../src/js/Board.js');
+var fs = require('fs');
 
 describe('A board', function() {
 	var board;
@@ -70,41 +71,37 @@ describe('A board', function() {
 	describe('#setValue', function() {
 
 		it('should set a value for an existing cell', function() {
-
 			var board = new Board();
 			board.setValue(5, 5, 9);
 			expect( board.getValue(5, 5)).toBe(9);
-
 		});
 
 		it('should throw an error when setting an unexisting cell', function() {
-
 			expect(function() {
-
 				board.setValue(1, 200, 1);
-
 			}).toThrowError('Invalid column given. Provide numbers between 1 - 9');
 
 			expect(function() {
-
 				board.setValue(100, 2, 1);
-
 			}).toThrowError('Invalid row given. Provide numbers between 1 - 9');
 
 		});
 
 		it('should throw an error when setting an existing cell with a duplicated value', function() {
-
 			expect(function() {
-
 				board.setValue(1, 1, 9);
-
 			}).toThrowError('Invalid value. It is already duplicated');
-
-
 		});
 
+	});
 
+	describe('#render', function () {
+		it('should return a view for board',  function() {
+			// REVIEW: There should be a better way to test a view
+			var expectedHtml = fs.readFileSync(__dirname + '/fixtures/board.html', 'utf-8');
+
+			expect( board.render() ).toEqual(expectedHtml);
+		});
 	});
 
 });

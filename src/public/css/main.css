@@ -2,19 +2,38 @@ body {
   font-family: arial;
 }
 
-.sudoku-matrix {
-  width: 150px;
+.sudoku-board {
+  width: 457px;
+  overflow: auto;
   border: 1px solid black;
-  overflow:auto
+}
+
+.sudoku-matrix {
+  position: relative;
+
+  border: 1px solid black;
+  overflow: auto;
+}
+
+.sudoku-cell,
+.sudoku-matrix {
+  width: 32.8%;
+  float: left;
 }
 
 .sudoku-cell {
-  float: left;
-  width: 49px;
-  height: 49px;
+  background-color: white;
+  cursor: pointer;
+  height: 44px;
   border-left: 1px solid black;
   border-top: 1px solid black;
   text-align: center;
+  font-size: 32px;
+  padding-top: 6px;
+}
+
+.sudoku-cell:hover {
+  background-color:aqua;
 }
 
 .sudoku-cell:nth-child(1),

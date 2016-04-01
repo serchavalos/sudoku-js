@@ -86,8 +86,17 @@ Board.prototype.setValue = function setValue(col, row, value) {
 		} else if (err instanceof DuplicatedValueError) {
 			throw new Error('Invalid value. It is already duplicated');
 		}
-	}
-	
+	}	
+};
+
+Board.prototype.render = function render() {
+	var html = '<div class="sudoku-board">';
+	this.matrices.forEach(function(matrix) {
+		html += matrix.render();
+	});
+	html += '</div>';
+
+	return html;
 };
 
 module.exports = Board;
