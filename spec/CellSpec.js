@@ -68,6 +68,10 @@ describe('A cell', function() {
       cell.setValue(9);
       expect( cell.render() ).toEqual('<div class="sudoku-cell">9</div>');
     });
+
+    it('should return a view of an empty cell', function() {
+      expect( (new Cell()).render() ).toEqual('<div class="sudoku-cell"></div>');
+    });
   });
 
 	afterEach(function() {

@@ -27,7 +27,11 @@ Cell.prototype.isEmpty = function isEmpty() {
 }
 
 Cell.prototype.render = function render() {
-	return '<div class="sudoku-cell">' + this.getValue() + '</div>';
+	var value = this.getValue();
+	if (value === null) {
+		value = '';
+	}
+	return '<div class="sudoku-cell">' + value + '</div>';
 };
 
 module.exports = Cell;

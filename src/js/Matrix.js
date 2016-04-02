@@ -4,8 +4,22 @@ var DuplicatedValueError = require('./exceptions/DuplicatedValueError.js');
 
 var Matrix = function Matrix(values) {
 	this.cells = [];
+	var currentValues = [];
+
 	for (var i = 0, value = null; i < 9; i++) {
-		value = values && typeof values[i] != 'undefined' ? values[i].getValue() : null;
+		if (typeof values == 'undefined') {
+			// don't do anything
+		} else if (typeof values[i] == 'number') {
+			value = values[i];
+		} else if (typeof values[i] == 'object' && /Cell/.test(values[i].constructor)) {
+			value = values[i].getValue();
+		}
+
+		if (value && currentValues.indexOf(value) > -1) {
+			throw new DuplicatedValueError();
+		}
+
+		currentValues.push(value);
 		this.cells[i] = new Cell(value);
 	}
 };

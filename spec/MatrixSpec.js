@@ -32,6 +32,12 @@ describe('A matrix', function(){
 		expect(firstCell.getValue()).toBe(1);
 	});
 
+	it('should be created with unique values', function() {
+		expect(function(){
+			new Matrix([1,1,1,1,1,1,1,1,1]);
+		}).toThrow(new DuplicatedValueError());
+	});
+
 	it('should be able to modify the value of a cell', function() {
 		expect(matrix.cells[0].getValue()).toBe(1);
 	});
