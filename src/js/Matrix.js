@@ -28,7 +28,7 @@ Matrix.prototype.getValues = function getValues() {
 	return values;
 };
 
-Matrix.prototype.setValue = function setValueOn(index, value) {
+Matrix.prototype.setValue = function setValue(index, value) {
 	if (typeof this.cells[index] === 'undefined') {
 		throw new IndexError();
 	}
