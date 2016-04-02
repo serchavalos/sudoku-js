@@ -9,7 +9,7 @@ var Matrix = function Matrix(values) {
 	for (var i = 0, value = null; i < 9; i++) {
 		if (typeof values == 'undefined') {
 			// don't do anything
-		} else if (typeof values[i] == 'number') {
+		} else if (typeof values[i] == 'number' || values[i] === null) {
 			value = values[i];
 		} else if (typeof values[i] == 'object' && /Cell/.test(values[i].constructor)) {
 			value = values[i].getValue();
@@ -53,6 +53,14 @@ Matrix.prototype.setValue = function setValue(index, value) {
 	}
 
 	this.cells[index].setValue(value);
+};
+
+Matrix.prototype.clearCell = function getCell(index) {
+	if (typeof this.cells[index] === 'undefined') {
+		throw new IndexError();
+	}
+
+	this.cells[index].clear();
 };
 
 Matrix.prototype.getHtml = function getHtml(index) {

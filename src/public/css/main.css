@@ -32,6 +32,11 @@ body {
   padding-top: 6px;
 }
 
+.sudoku-cell.selected,
+.sudoku-cell.selected:hover {
+  background-color: yellow;
+}
+
 .sudoku-cell:hover {
   background-color:aqua;
 }

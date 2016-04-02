@@ -6,6 +6,7 @@ var Board = function Board(idContainer, matrices){
 	this.containerElem = document.querySelector(idContainer);
 	this.matrices = [];
 	this.selectedCellIndex = null;
+	this.selectedMatrixIndex = null;
 	this.selectedMatrix = null;
 
 	for (var i = 0; i < 9; i++) {
@@ -19,8 +20,6 @@ var Board = function Board(idContainer, matrices){
 };
 
 Board.prototype.getValuesForColumn = function getValuesForColumn(column) {
-	column = column - 1; // In reality we use index from 0 - 8 but for the API is 1 - 9
-
 	var allValues = [];
 	var indexColumn = parseInt(column / 3);
 	var indexRow = column % 3;
@@ -45,8 +44,6 @@ Board.prototype.getValuesForColumn = function getValuesForColumn(column) {
 };
 
 Board.prototype.getValuesForRow = function getValuesForRow(row) {
-	row = row - 1; // In reality we use index from 0 - 8 but for the API is 1 - 9
-
 	var allValues = [];
 	var index = parseInt(row / 3) * 3;
 	var rowIndex = (row % 3)*3;
@@ -118,16 +115,36 @@ Board.prototype.selectCell = function(cellElem) {
 	var cellIndex = cellElem.dataset.index;
 	var matrixIndex = cellElem.parentElement.dataset.index;
 
-	this.selectedCellIndex = cellIndex;
-	this.selectedMatrix = this.matrices[matrixIndex];
+	this.selectedCellIndex = parseInt(cellIndex);
+	this.selectedMatrixIndex = parseInt(matrixIndex);
+
+	this.selectedMatrix = this.matrices[this.selectedMatrixIndex];
 };
 
 Board.prototype.setValueOnSelectedCell = function setValueOnSelectedCell(value) {
+	if (this.selectedMatrix === null || this.selectedCellIndex === null) {
+		return; // Ignore
+	}
+
+	var currentColumn = (parseInt(this.selectedMatrixIndex % 3))*3 + (this.selectedCellIndex % 3);
+	var currentRow = (parseInt(this.selectedMatrixIndex / 3))*3 + (this.selectedCellIndex % 3);
+
+	var currentColumnValues = this.getValuesForColumn(currentColumn);
+	var currentRowValues = this.getValuesForRow(currentRow);
+
+	if (currentColumnValues.indexOf(value) > -1 || currentRowValues.indexOf(value) > -1) {
+		throw new DuplicatedValueError();
+	}
+
+	this.selectedMatrix.setValue(this.selectedCellIndex, value);
+};
+
+Board.prototype.clearSelectedCell = function clearSelectedCell() {
 	if (this.selectedMatrix === null) {
 		return; // Ignore
 	}
 
-	this.selectedMatrix.setValue(this.selectedCellIndex, value);
+	this.selectedMatrix.clearCell(this.selectedCellIndex);
 };
 
 module.exports = Board;
