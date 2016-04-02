@@ -47,3 +47,32 @@ body {
 .sudoku-cell:nth-child(7) {
   border-left: none;
 }
+
+.keyboard {
+  overflow: auto;
+  display: block;
+  width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+}
+
+.keyboard-key {
+  display: block;
+  box-sizing: border-box;
+  list-style: none;
+  width: 60px;
+  height: 60px;
+  float: left;
+  border: 1px solid black;
+  text-align: center;
+  margin: 2px;
+  padding-top: 12px;
+  font-size: 30px;
+  border-radius: 9px;
+  cursor: pointer;
+}
+
+.keyboard-key.selected {
+  background-color: yellow;
+}

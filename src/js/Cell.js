@@ -26,12 +26,13 @@ Cell.prototype.isEmpty = function isEmpty() {
 	return (this.value === null);
 }
 
-Cell.prototype.render = function render() {
+Cell.prototype.getHtml = function getHtml(index) {
+	var dataAttr = typeof index != 'undefined' ? 'data-index="' + index + '"' : '';
 	var value = this.getValue();
 	if (value === null) {
 		value = '';
 	}
-	return '<div class="sudoku-cell">' + value + '</div>';
+	return '<div class="sudoku-cell" ' + dataAttr + '>' + value + '</div>';
 };
 
 module.exports = Cell;

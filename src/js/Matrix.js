@@ -55,10 +55,11 @@ Matrix.prototype.setValue = function setValue(index, value) {
 	this.cells[index].setValue(value);
 };
 
-Matrix.prototype.render = function render() {
-	var html = '<div class="sudoku-matrix">';
-	this.cells.forEach(function(cell) {
-		html += cell.render();
+Matrix.prototype.getHtml = function getHtml(index) {
+	var dataAttr = typeof index != 'undefined' ? 'data-index="' + index + '"' : '';
+	var html = '<div class="sudoku-matrix" ' + dataAttr + '>';
+	this.cells.forEach(function(cell, index) {
+		html += cell.getHtml(index);
 	});
 	html += '</div>';
 

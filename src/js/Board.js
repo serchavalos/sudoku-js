@@ -2,16 +2,20 @@ var Matrix = require('./Matrix');
 var IndexError = require('./exceptions/IndexError.js');
 var DuplicatedValueError = require('./exceptions/DuplicatedValueError.js');
 
-var Board = function Board(matrices){
+var Board = function Board(idContainer, matrices){
+	this.containerElem = document.querySelector(idContainer);
 	this.matrices = [];
+	this.selectedCellIndex = null;
+	this.selectedMatrix = null;
+
 	for (var i = 0; i < 9; i++) {
 		if (typeof matrices != 'undefined' && matrices[i] !== null) {
 			this.matrices.push(new Matrix(matrices[i]));
 		} else {
 			this.matrices.push(new Matrix());
-		}
-		
+		}		
 	}
+
 };
 
 Board.prototype.getValuesForColumn = function getValuesForColumn(column) {
@@ -99,14 +103,31 @@ Board.prototype.setValue = function setValue(col, row, value) {
 	}
 };
 
-Board.prototype.render = function render() {
+Board.prototype.updateView = function updateView() {
 	var html = '<div class="sudoku-board">';
-	this.matrices.forEach(function(matrix) {
-		html += matrix.render();
+
+	this.matrices.forEach(function(matrix, index) {
+		html += matrix.getHtml(index);
 	});
 	html += '</div>';
 
-	return html;
+	this.containerElem.innerHTML = html;
+};
+
+Board.prototype.selectCell = function(cellElem) {
+	var cellIndex = cellElem.dataset.index;
+	var matrixIndex = cellElem.parentElement.dataset.index;
+
+	this.selectedCellIndex = cellIndex;
+	this.selectedMatrix = this.matrices[matrixIndex];
+};
+
+Board.prototype.setValueOnSelectedCell = function setValueOnSelectedCell(value) {
+	if (this.selectedMatrix === null) {
+		return; // Ignore
+	}
+
+	this.selectedMatrix.setValue(this.selectedCellIndex, value);
 };
 
 module.exports = Board;
