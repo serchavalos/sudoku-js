@@ -124,7 +124,7 @@ Board.prototype.updateView = function updateView() {
 	this.containerElem.innerHTML = html;
 };
 
-Board.prototype.selectCell = function(cellElem) {
+Board.prototype.selectCell = function selectCell(cellElem) {
 	var value = parseInt(cellElem.innerText) || null;
 	var cellIndex = cellElem.dataset.index;
 	var matrixIndex = cellElem.parentElement.dataset.index;
@@ -209,8 +209,8 @@ Cell.prototype.isEmpty = function isEmpty() {
 
 Cell.prototype.getHtml = function getHtml(index) {
 	var dataAttr = typeof index != 'undefined' ? 'data-index="' + index + '"' : '';
-	var text = this.value !== null ?  this.value : '';
-	var css = (this.value === null !== null ? 'value-' + this.value : '')
+	var text = this.value !== null ?  this.value : '&nbsp;';
+	var css = (this.value !== null ? 'value-' + this.value : '')
 		+ (this.editable ? '' : ' fixed');
 
 	return '<div class="sudoku-cell ' + css + '" ' + dataAttr + '>' + text + '</div>';

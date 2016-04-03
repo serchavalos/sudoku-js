@@ -123,7 +123,7 @@ Board.prototype.updateView = function updateView() {
 	this.containerElem.innerHTML = html;
 };
 
-Board.prototype.selectCell = function(cellElem) {
+Board.prototype.selectCell = function selectCell(cellElem) {
 	var value = parseInt(cellElem.innerText) || null;
 	var cellIndex = cellElem.dataset.index;
 	var matrixIndex = cellElem.parentElement.dataset.index;
