@@ -1,6 +1,11 @@
-var Keyboard = function Keyboard(idElem) {
+var Keyboard = function Keyboard(idContainer) {
+  this.containerElem = document.querySelector(idContainer);
   this.selectedNumber = null;
-  this.keyElems = document.querySelectorAll(idElem + ' .keyboard-key');
+  this.keyElems = document.querySelectorAll(idContainer + ' .keyboard-key');
+};
+
+Keyboard.prototype.onClick = function onClick(callback) {
+ this.containerElem.addEventListener('click', callback);
 };
 
 Keyboard.prototype.selectNumber = function(keyElem) {

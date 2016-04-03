@@ -16,6 +16,10 @@ var Board = function Board(idContainer, matrices){
 	}
 };
 
+Board.prototype.onClick = function onClick(callback) {
+  this.containerElem.addEventListener('click', callback);
+};
+
 Board.prototype.getCurrentColumnValues = function getCurrentColumnValues() {
 	var allValues = [];
 	var currentColumn = (parseInt(this.selectedMatrixIndex % 3))*3 + (this.selectedCellIndex % 3);
