@@ -3,42 +3,78 @@ body {
 }
 
 .sudoku-board {
-  width: 457px;
+  width: 750px;
   overflow: auto;
-  border: 1px solid black;
+  border: 5px solid black;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+  border-radius: 25px;
 }
 
 .sudoku-matrix {
   position: relative;
-
-  border: 1px solid black;
   overflow: auto;
+  margin: 0;
+}
+
+.sudoku-matrix:nth-child(odd) {
+  background-color: #DEDEDE;
+}
+
+.sudoku-matrix:nth-child(1),
+.sudoku-matrix:nth-child(4),
+.sudoku-matrix:nth-child(7),
+.sudoku-matrix:nth-child(2),
+.sudoku-matrix:nth-child(5),
+.sudoku-matrix:nth-child(8) {
+  border-right: 5px solid black;
+}
+.sudoku-matrix:nth-child(1),
+.sudoku-matrix:nth-child(2),
+.sudoku-matrix:nth-child(3),
+.sudoku-matrix:nth-child(4),
+.sudoku-matrix:nth-child(5),
+.sudoku-matrix:nth-child(6) {
+  border-bottom: 5px solid black;
 }
 
 .sudoku-cell,
 .sudoku-matrix {
-  width: 32.8%;
+  width: 32.88%;
   float: left;
 }
 
 .sudoku-cell {
-  background-color: white;
   cursor: pointer;
-  height: 44px;
-  border-left: 1px solid black;
-  border-top: 1px solid black;
+  height: 77px;
   text-align: center;
-  font-size: 32px;
+  font-size: 60px;
   padding-top: 6px;
 }
+
+.sudoku-cell:nth-child(1),
+.sudoku-cell:nth-child(4),
+.sudoku-cell:nth-child(7),
+.sudoku-cell:nth-child(2),
+.sudoku-cell:nth-child(5),
+.sudoku-cell:nth-child(8) {
+  border-right: 1px solid black;
+}
+.sudoku-cell:nth-child(1),
+.sudoku-cell:nth-child(2),
+.sudoku-cell:nth-child(3),
+.sudoku-cell:nth-child(4),
+.sudoku-cell:nth-child(5),
+.sudoku-cell:nth-child(6) {
+  border-bottom: 1px solid black;
+}
+
+
 
 .sudoku-cell.selected,
 .sudoku-cell.selected:hover {
   background-color: yellow;
-}
-
-.sudoku-cell:hover {
-  background-color:aqua;
 }
 
 .sudoku-cell:nth-child(1),
