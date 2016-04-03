@@ -41,11 +41,15 @@ Cell.prototype.isEmpty = function isEmpty() {
 
 Cell.prototype.getHtml = function getHtml(index) {
 	var dataAttr = typeof index != 'undefined' ? 'data-index="' + index + '"' : '';
+	var css = '';
 	var value = this.getValue();
 	if (value === null) {
 		value = '';
+	} else {
+		css = ' value-' + value;
 	}
-	return '<div class="sudoku-cell" ' + dataAttr + '>' + value + '</div>';
+
+	return '<div class="sudoku-cell ' + css + '" ' + dataAttr + '>' + value + '</div>';
 };
 
 module.exports = Cell;

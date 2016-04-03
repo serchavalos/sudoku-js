@@ -81,3 +81,15 @@ body {
 .keyboard-key.selected {
   background-color: yellow;
 }
+
+.current-selected-value-1 .value-1,
+.current-selected-value-2 .value-2,
+.current-selected-value-3 .value-3,
+.current-selected-value-4 .value-4,
+.current-selected-value-5 .value-5,
+.current-selected-value-6 .value-6,
+.current-selected-value-7 .value-7,
+.current-selected-value-8 .value-8,
+.current-selected-value-9 .value-9 {
+  background-color: yellow;
+}

@@ -6,6 +6,7 @@ var Board = function Board(idContainer, matrices){
 	this.selectedCellIndex = null;
 	this.selectedMatrixIndex = null;
 	this.selectedMatrix = null;
+	this.selectedValue = null;
 
 	for (var i = 0; i < 9; i++) {
 		if (typeof matrices != 'undefined' && matrices[i] !== null) {
@@ -104,7 +105,8 @@ Board.prototype.setValue = function setValue(col, row, value) {
 };
 
 Board.prototype.updateView = function updateView() {
-	var html = '<div class="sudoku-board">';
+	var css = this.selectedValue !== null ? ' current-selected-value-' + this.selectedValue + '"' : null;
+	var html = '<div class="sudoku-board ' + css + '">';
 
 	this.matrices.forEach(function(matrix, index) {
 		html += matrix.getHtml(index);
@@ -115,13 +117,14 @@ Board.prototype.updateView = function updateView() {
 };
 
 Board.prototype.selectCell = function(cellElem) {
+	var value = parseInt(cellElem.innerText) || null;
 	var cellIndex = cellElem.dataset.index;
 	var matrixIndex = cellElem.parentElement.dataset.index;
 
 	this.selectedCellIndex = parseInt(cellIndex);
 	this.selectedMatrixIndex = parseInt(matrixIndex);
-
 	this.selectedMatrix = this.matrices[this.selectedMatrixIndex];
+	this.selectedValue = value;
 };
 
 Board.prototype.setValueOnSelectedCell = function setValueOnSelectedCell(value) {
@@ -130,6 +133,7 @@ Board.prototype.setValueOnSelectedCell = function setValueOnSelectedCell(value) 
 	}
 
 	this.selectedMatrix.setValue(this.selectedCellIndex, value);
+	this.selectedValue = value;
 };
 
 Board.prototype.clearSelectedCell = function clearSelectedCell() {
