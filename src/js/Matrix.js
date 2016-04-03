@@ -1,4 +1,4 @@
-var Cell = require('./cell.js');
+var Cell = require('./Cell.js');
 
 var Matrix = function Matrix(values) {
 	this.cells = [];
