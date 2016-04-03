@@ -3,6 +3,7 @@ var Matrix = require('./Matrix');
 var Board = function Board(idContainer, matrices){
 	this.containerElem = document.querySelector(idContainer);
 	this.matrices = [];
+	this.resolved = false;
 	this.selectedCellIndex = null;
 	this.selectedMatrixIndex = null;
 	this.selectedMatrix = null;
@@ -105,6 +106,12 @@ Board.prototype.setValue = function setValue(col, row, value) {
 };
 
 Board.prototype.updateView = function updateView() {
+	if (this.resolved === true) {
+		var wrapper = this.containerElem.parentNode;
+		wrapper.innerHTML = '<div class="game-resolved-overlay">Completed!</div>' +
+			wrapper.innerHTML;
+	}
+
 	var css = this.selectedValue !== null ? ' current-selected-value-' + this.selectedValue + '"' : null;
 	var html = '<div class="sudoku-board ' + css + '">';
 
@@ -151,6 +158,10 @@ Board.prototype.isComplete = function isComplete() {
 	});
 
 	return totalCells === 81;
+};
+
+Board.prototype.markAsResolved = function markAsResolved() {
+	this.resolved = true;
 };
 
 module.exports = Board;

@@ -1,5 +1,12 @@
 body {
   font-family: arial;
+  padding: 0;
+  margin: 0;
+}
+
+#board-container {
+  position: relative;
+  padding: 100px 100px 0 100px;
 }
 
 .sudoku-board {
@@ -8,8 +15,20 @@ body {
   border: 5px solid black;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 100px;
   border-radius: 25px;
+}
+
+.game-resolved-overlay {
+  position: absolute;
+  width: 100%;
+  background-color: rgba(92, 184, 92, 0.74);
+  height: 100%;
+  z-index: 100;
+  text-align: center;
+  color: white;
+  font-size: 100px;
+  font-style: italic;
+  padding-top: 428px;
 }
 
 .sudoku-matrix {
@@ -51,6 +70,12 @@ body {
   text-align: center;
   font-size: 60px;
   padding-top: 6px;
+  color: #222;
+}
+
+.sudoku-cell.fixed {
+  font-weight: bold;
+  color: black;
 }
 
 .sudoku-cell:nth-child(1),

@@ -39,11 +39,12 @@ GameController.prototype.onKeyboardClicked = function onKeyboardClicked(event) {
   var number = this.keyboard.getSelectedNumber();
   this.board.setValueOnSelectedCell(number);
   this.detector.updateFromBoard(this.board);
-  this.board.updateView();
 
   if (this.board.isComplete() && this.detector.hasDuplicatedValues() === false) {
-    console.log('Game over!');
+    this.board.markAsResolved();
   }
+
+  this.board.updateView();
 };
 
 GameController.prototype.onBoardClicked = function onBoardClicked(event) {

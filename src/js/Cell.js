@@ -41,7 +41,8 @@ Cell.prototype.isEmpty = function isEmpty() {
 Cell.prototype.getHtml = function getHtml(index) {
 	var dataAttr = typeof index != 'undefined' ? 'data-index="' + index + '"' : '';
 	var text = this.value !== null ?  this.value : '';
-	var css = this.value === null !== null ? ' value-' + this.value : '';
+	var css = (this.value === null !== null ? 'value-' + this.value : '')
+		+ (this.editable ? '' : ' fixed');
 
 	return '<div class="sudoku-cell ' + css + '" ' + dataAttr + '>' + text + '</div>';
 };
