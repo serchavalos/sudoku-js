@@ -168,7 +168,7 @@ body {
 .current-selected-value-9 .value-9 {
   background-color: yellow;
 }
-
+/*
 @media (min-width: 700px) {
   .wrapper {
     width: 500px;
@@ -240,3 +240,4 @@ body {
     box-shadow: 2px 2px #999;
   }
 }
+*/
