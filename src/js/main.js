@@ -2,14 +2,16 @@ var Board = require('./Board.js');
 var Matrix = require('./Matrix.js');
 var Cell = require('./Cell.js');
 var Keyboard = require('./Keyboard.js');
+var DuplicationDetector = require('./DuplicationDetector.js');
 
 var board = new Board('#board-container', [
-    null, [1,2,3,4,5,6,7,8,9], null,
-    [1,2,3,4,5,6,7,8,9],[1,2,null,4,5,6,7,8,9],[1,2,3,4,5,6,7,8,9],
-    null, [1,2,3,4,5,6,7,8,9], null
+    [9,6,1,8,3,5,2,7,4], [4,3,8,7,2,9,6,5,1], [7,2,5,1,4,6,3,9,8],
+    [7,1,2,6,4,8,3,5,9], [5,8,6,3,9,2,1,4,7], [4,3,9,5,7,1,6,8,2],
+    [4,2,6,5,9,7,1,8,3], [9,7,5,8,1,3,2,6,4], [8,1,3,2,6,4,9,5,null]
     ]
   ),
   keyboard = new Keyboard('#keyboard-container'),
+  detector = new DuplicationDetector(),
   allCells
 ;
 
@@ -33,8 +35,14 @@ document.querySelector('#keyboard-container').addEventListener('click', function
   keyboard.selectNumber(keyElem);
   keyboard.updateView();
 
-  board.setValueOnSelectedCell(keyboard.getSelectedNumber());
+  var number = keyboard.getSelectedNumber();
+  board.setValueOnSelectedCell(number);
+  detector.updateFromBoard(board);
   board.updateView();
+
+  if (board.isComplete() && detector.hasDuplicatedValues() === false) {
+    console.log('Game over!');
+  }
 });
 
 document.querySelector('#board-container').addEventListener('click', function(event) {

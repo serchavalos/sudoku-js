@@ -1,6 +1,4 @@
 var Matrix = require('./Matrix');
-var IndexError = require('./exceptions/IndexError.js');
-var DuplicatedValueError = require('./exceptions/DuplicatedValueError.js');
 
 var Board = function Board(idContainer, matrices){
 	this.containerElem = document.querySelector(idContainer);
@@ -16,13 +14,13 @@ var Board = function Board(idContainer, matrices){
 			this.matrices.push(new Matrix());
 		}		
 	}
-
 };
 
-Board.prototype.getValuesForColumn = function getValuesForColumn(column) {
+Board.prototype.getCurrentColumnValues = function getCurrentColumnValues() {
 	var allValues = [];
-	var indexColumn = parseInt(column / 3);
-	var indexRow = column % 3;
+	var currentColumn = (parseInt(this.selectedMatrixIndex % 3))*3 + (this.selectedCellIndex % 3);
+	var indexColumn = parseInt(currentColumn / 3);
+	var indexRow = currentColumn % 3;
 	var validMatrices = [indexColumn, indexColumn + 3, indexColumn + 6];
 	var validCells = [indexRow, indexRow + 3, indexRow + 6];
 
@@ -43,10 +41,11 @@ Board.prototype.getValuesForColumn = function getValuesForColumn(column) {
 	return allValues;
 };
 
-Board.prototype.getValuesForRow = function getValuesForRow(row) {
+Board.prototype.getCurrentRowValues = function getCurrentRowValues() {
 	var allValues = [];
-	var index = parseInt(row / 3) * 3;
-	var rowIndex = (row % 3)*3;
+	var currentRow = (parseInt(this.selectedMatrixIndex / 3))*3 + (this.selectedCellIndex % 3);
+	var index = parseInt(currentRow / 3) * 3;
+	var rowIndex = (currentRow % 3)*3;
 	var validMatrices = [index, index + 1, index + 2];
 	var validCells = [rowIndex, rowIndex + 1, rowIndex + 2];
 
@@ -65,6 +64,10 @@ Board.prototype.getValuesForRow = function getValuesForRow(row) {
 	});
 
 	return allValues;
+};
+
+Board.prototype.getCurrentMatrixValues = function getCurrentMatrixValues() {
+	return this.selectedMatrix.getValues();
 };
 
 Board.prototype.getValue = function getValue(col, row) {
@@ -92,11 +95,7 @@ Board.prototype.setValue = function setValue(col, row, value) {
 	try {
 		matrix.setValue(indexCell, value);
 	} catch (err) {
-		if (err instanceof IndexError) {
-			throw new Error('Invalid row/column given. Provide numbers between 1 - 9');
-		} else if (err instanceof DuplicatedValueError) {
-			throw new Error('Invalid value. It is already duplicated');
-		}
+		throw new Error('Invalid row/column given. Provide numbers between 1 - 9');
 	}
 };
 
@@ -126,16 +125,6 @@ Board.prototype.setValueOnSelectedCell = function setValueOnSelectedCell(value) 
 		return; // Ignore
 	}
 
-	var currentColumn = (parseInt(this.selectedMatrixIndex % 3))*3 + (this.selectedCellIndex % 3);
-	var currentRow = (parseInt(this.selectedMatrixIndex / 3))*3 + (this.selectedCellIndex % 3);
-
-	var currentColumnValues = this.getValuesForColumn(currentColumn);
-	var currentRowValues = this.getValuesForRow(currentRow);
-
-	if (currentColumnValues.indexOf(value) > -1 || currentRowValues.indexOf(value) > -1) {
-		throw new DuplicatedValueError();
-	}
-
 	this.selectedMatrix.setValue(this.selectedCellIndex, value);
 };
 
@@ -145,6 +134,15 @@ Board.prototype.clearSelectedCell = function clearSelectedCell() {
 	}
 
 	this.selectedMatrix.clearCell(this.selectedCellIndex);
+};
+
+Board.prototype.isComplete = function isComplete() {
+	var totalCells = 0;
+	this.matrices.forEach(function(matrix) {
+		totalCells += matrix.getValues().length;
+	});
+
+	return totalCells === 81;
 };
 
 module.exports = Board;

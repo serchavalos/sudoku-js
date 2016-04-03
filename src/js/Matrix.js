@@ -1,6 +1,4 @@
 var Cell = require('./cell.js');
-var IndexError = require('./exceptions/IndexError.js');
-var DuplicatedValueError = require('./exceptions/DuplicatedValueError.js');
 
 var Matrix = function Matrix(values) {
 	this.cells = [];
@@ -15,10 +13,6 @@ var Matrix = function Matrix(values) {
 			value = values[i].getValue();
 		}
 
-		if (value && currentValues.indexOf(value) > -1) {
-			throw new DuplicatedValueError();
-		}
-
 		currentValues.push(value);
 		this.cells[i] = new Cell(value);
 	}
@@ -26,7 +20,7 @@ var Matrix = function Matrix(values) {
 
 Matrix.prototype.getValue = function getValue(index) {
 	if (typeof this.cells[index] === 'undefined') {
-		throw new IndexError();
+		throw new Error('Index error');
 	}
 
 	return this.cells[index].getValue();
@@ -44,12 +38,7 @@ Matrix.prototype.getValues = function getValues() {
 
 Matrix.prototype.setValue = function setValue(index, value) {
 	if (typeof this.cells[index] === 'undefined') {
-		throw new IndexError();
-	}
-
-	var values = this.getValues();
-	if (values.indexOf(value) > -1) {
-		throw new DuplicatedValueError();
+		throw new Error('Index error');
 	}
 
 	this.cells[index].setValue(value);
@@ -57,7 +46,7 @@ Matrix.prototype.setValue = function setValue(index, value) {
 
 Matrix.prototype.clearCell = function getCell(index) {
 	if (typeof this.cells[index] === 'undefined') {
-		throw new IndexError();
+		throw new Error('Index error');
 	}
 
 	this.cells[index].clear();
