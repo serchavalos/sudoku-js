@@ -5,8 +5,10 @@ body {
 }
 
 .wrapper {
-  width: auto;
-  margin: 0;
+  position: relative;
+
+  width: 500px;
+  margin: 0 auto;
 }
 
 .board-container {
@@ -17,7 +19,7 @@ body {
 .sudoku-board {
   width: 100%;
   overflow: auto;
-  border: 5px solid black;
+  border: 3px solid black;
   margin-left: 0;
   border-radius: 25px;
   box-sizing: border-box;
@@ -31,9 +33,9 @@ body {
   z-index: 100;
   text-align: center;
   color: white;
-  font-size: 100px;
+  font-size: 50px;
   font-style: italic;
-  padding-top: 428px;
+  padding-top: 200px;
 }
 
 .sudoku-matrix {
@@ -52,7 +54,7 @@ body {
 .sudoku-matrix:nth-child(2),
 .sudoku-matrix:nth-child(5),
 .sudoku-matrix:nth-child(8) {
-  border-right: 5px solid black;
+  border-right: 3px solid black;
 }
 .sudoku-matrix:nth-child(1),
 .sudoku-matrix:nth-child(2),
@@ -60,7 +62,7 @@ body {
 .sudoku-matrix:nth-child(4),
 .sudoku-matrix:nth-child(5),
 .sudoku-matrix:nth-child(6) {
-  border-bottom: 5px solid black;
+  border-bottom: 3px solid black;
 }
 
 .sudoku-cell,
@@ -72,8 +74,8 @@ body {
 .sudoku-cell {
   cursor: pointer;
   text-align: center;
-  font-size: 60px;
-  padding: 15px 0px;
+  font-size: 26px;
+  padding: 11px 0px;
   color: #222;
   box-sizing: border-box;
 }
@@ -122,30 +124,32 @@ body {
 .keyboard {
   overflow: auto;
   display: block;
-  width: 460px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 150px;
   position: relative;
+
+  width: 185px;
+  padding-left: 60px;
 }
 
 .keyboard-key {
   background-color: white;
   display: block;
   list-style: none;
-  width: 140px;
   float: left;
   border: 1px solid #999;
   text-align: center;
   margin: 5px;
-  padding: 10px 0;
-  font-size: 52px;
-  border-radius: 9px;
   cursor: pointer;
-  box-shadow: 4px 4px #999;
   color: #333;
   box-sizing: border-box;
   position: relative;
+
+  width: 51px;
+  padding: 5px 0;
+  font-size: 15px;
+  border-radius: 4px;
+  box-shadow: 2px 2px #999;
 }
 
 .keyboard-key.selected {
@@ -168,25 +172,20 @@ body {
 .current-selected-value-9 .value-9 {
   background-color: yellow;
 }
-/*
-@media (min-width: 700px) {
+
+@media (max-width: 992px) {
   .wrapper {
-    width: 500px;
-    margin: 0 auto;
+    width: auto;
+    margin: 0;
   }
 
   .sudoku-board {
-    border: 3px solid black;
-  }
-
-  .sudoku-cell,
-  .sudoku-matrix {
-    width: 32.92%;
+    border: 5px solid black;
   }
 
   .sudoku-cell {
-    font-size: 26px;
-    padding: 11px 0px;
+    font-size: 60px;
+    padding: 15px 0px;
   }
 
   .sudoku-matrix:nth-child(1),
@@ -195,7 +194,7 @@ body {
   .sudoku-matrix:nth-child(2),
   .sudoku-matrix:nth-child(5),
   .sudoku-matrix:nth-child(8) {
-    border-right: 3px solid black;
+    border-right: 5px solid black;
   }
 
   .sudoku-matrix:nth-child(1),
@@ -204,40 +203,19 @@ body {
   .sudoku-matrix:nth-child(4),
   .sudoku-matrix:nth-child(5),
   .sudoku-matrix:nth-child(6) {
-    border-bottom: 3px solid black;
+    border-bottom: 5px solid black;
   }
 
   .keyboard-key {
-    background-color: white;
-    display: block;
-    list-style: none;
-    width: 51px;
-    float: left;
-    border: 1px solid #999;
-    text-align: center;
-    margin: 5px;
-    padding: 5px 0;
-    font-size: 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    box-shadow: 2px 2px #999;
-    color: #333;
-    box-sizing: border-box;
-    position: relative;
+    width: 140px;
+    padding: 10px 0;
+    font-size: 52px;
+    border-radius: 9px;
+    box-shadow: 4px 4px #999;
   }
 
   .keyboard {
-    width: 185px;
-    padding-left: 60px;
-  }
-
-  .keyboard-key {
-    width: 51px;
-    margin: 5px;
-    padding: 5px 0;
-    font-size: 15px;
-    border-radius: 4px;
-    box-shadow: 2px 2px #999;
+    width: 460px;
+    padding-left: 150px;
   }
 }
-*/

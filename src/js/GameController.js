@@ -34,7 +34,6 @@ GameController.prototype.onKeyboardClicked = function onKeyboardClicked(event) {
   }
 
   this.keyboard.selectNumber(keyElem);
-  this.keyboard.updateView();
 
   var number = this.keyboard.getSelectedNumber();
   this.board.setValueOnSelectedCell(number);
@@ -57,13 +56,6 @@ GameController.prototype.onBoardClicked = function onBoardClicked(event) {
 
   this.board.selectCell(cellElem);
   this.board.updateView();
-
-  Array.prototype.forEach.call(this.allCells, function(cellElem) {
-    // It seems that classList API is too slow with 81 elements...
-    cellElem.className = cellElem.className.replace(/selected/, '');
-  });
-  cellElem.className += ' selected';
-
 };
 
 module.exports = GameController;

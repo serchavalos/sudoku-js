@@ -128,10 +128,18 @@ Board.prototype.selectCell = function selectCell(cellElem) {
 	var cellIndex = cellElem.dataset.index;
 	var matrixIndex = cellElem.parentElement.dataset.index;
 
+	if (value !== null && value !== '') {
+		this.selectedValue = value;
+	}
+
 	this.selectedCellIndex = parseInt(cellIndex);
 	this.selectedMatrixIndex = parseInt(matrixIndex);
 	this.selectedMatrix = this.matrices[this.selectedMatrixIndex];
-	this.selectedValue = value;
+
+	this.matrices.forEach(function (matrix){
+		matrix.deselectAllCells();
+	});
+	this.matrices[this.selectedMatrixIndex].selectCell(this.selectedCellIndex, true);
 };
 
 Board.prototype.setValueOnSelectedCell = function setValueOnSelectedCell(value) {

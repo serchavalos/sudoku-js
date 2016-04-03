@@ -1,5 +1,6 @@
 var Cell = function Cell(value) {
 	this.editable = true;
+	this.selected = false;
 
 	try {
 		this.setValue(value);
@@ -38,11 +39,17 @@ Cell.prototype.isEmpty = function isEmpty() {
 	return (this.value === null);
 }
 
+Cell.prototype.setSelectAttr = function setSelectAttr(select) {
+	this.selected = !!(select);
+};
+
 Cell.prototype.getHtml = function getHtml(index) {
 	var dataAttr = typeof index != 'undefined' ? 'data-index="' + index + '"' : '';
 	var text = this.value !== null ?  this.value : '&nbsp;';
 	var css = (this.value !== null ? 'value-' + this.value : '')
-		+ (this.editable ? '' : ' fixed');
+		+ (this.editable ? '' : ' fixed')
+		+ (this.selected ? ' selected' : '')
+	;
 
 	return '<div class="sudoku-cell ' + css + '" ' + dataAttr + '>' + text + '</div>';
 };

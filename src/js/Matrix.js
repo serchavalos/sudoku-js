@@ -52,6 +52,17 @@ Matrix.prototype.clearCell = function getCell(index) {
 	this.cells[index].clear();
 };
 
+Matrix.prototype.deselectAllCells = function deselectAllCells() {
+	this.cells.forEach(function(cell) {
+		cell.setSelectAttr(false);
+	});
+};
+
+Matrix.prototype.selectCell = function selectCell(index) {
+	this.deselectAllCells();
+	this.cells[index].setSelectAttr(true);
+};
+
 Matrix.prototype.getHtml = function getHtml(index) {
 	var dataAttr = typeof index != 'undefined' ? 'data-index="' + index + '"' : '';
 	var html = '<div class="sudoku-matrix" ' + dataAttr + '>';
