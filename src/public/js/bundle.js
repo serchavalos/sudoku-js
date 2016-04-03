@@ -107,13 +107,7 @@ Board.prototype.setValue = function setValue(col, row, value) {
 };
 
 Board.prototype.updateView = function updateView() {
-	if (this.resolved === true) {
-		var wrapper = this.containerElem.parentNode;
-		wrapper.innerHTML = '<div class="game-resolved-overlay">Completed!</div>' +
-			wrapper.innerHTML;
-	}
-
-	var css = this.selectedValue !== null ? ' current-selected-value-' + this.selectedValue + '"' : null;
+	var css = this.selectedValue !== null ? 'current-selected-value-' + this.selectedValue + '"' : '';
 	var html = '<div class="sudoku-board ' + css + '">';
 
 	this.matrices.forEach(function(matrix, index) {
@@ -122,6 +116,12 @@ Board.prototype.updateView = function updateView() {
 	html += '</div>';
 
 	this.containerElem.innerHTML = html;
+
+	if (this.resolved === true) {
+		var wrapper = this.containerElem.parentNode;
+		wrapper.innerHTML = '<div class="game-resolved-overlay">Completed!</div>' +
+			wrapper.innerHTML;
+	}
 };
 
 Board.prototype.selectCell = function selectCell(cellElem) {
