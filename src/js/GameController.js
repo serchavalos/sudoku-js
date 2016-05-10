@@ -1,11 +1,10 @@
 var Board = require('./Board.js');
-var Matrix = require('./Matrix.js');
 var Cell = require('./Cell.js');
 var Keyboard = require('./Keyboard.js');
 var DuplicationDetector = require('./DuplicationDetector.js');
 
-var GameController = function GameController(idBoard, boardValues, idKeyboard) {
-  this.board = new Board(idBoard, boardValues);
+var GameController = function GameController(document, idBoard, boardValues, idKeyboard) {
+  this.board = new Board(document, idBoard, boardValues);
   this.keyboard = new Keyboard(idKeyboard);
   this.detector = new DuplicationDetector();
   this.allCells;

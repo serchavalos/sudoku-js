@@ -43,15 +43,16 @@ Cell.prototype.setSelectAttr = function setSelectAttr(select) {
 	this.selected = !!(select);
 };
 
-Cell.prototype.getHtml = function getHtml(index) {
-	var dataAttr = typeof index != 'undefined' ? 'data-index="' + index + '"' : '';
+Cell.prototype.getHtml = function getHtml(baseCss) {
 	var text = this.value !== null ?  this.value : '&nbsp;';
-	var css = (this.value !== null ? 'value-' + this.value : '')
+	var css = baseCss ? ' ' + baseCss : '';
+
+	css += (this.value !== null ? ' value-' + this.value : '')
 		+ (this.editable ? '' : ' fixed')
 		+ (this.selected ? ' selected' : '')
 	;
 
-	return '<div class="sudoku-cell ' + css + '" ' + dataAttr + '>' + text + '</div>';
+	return '<div class="sudoku-cell' + css + '">' + text + '</div>';
 };
 
 module.exports = Cell;

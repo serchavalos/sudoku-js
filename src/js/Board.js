@@ -1,19 +1,19 @@
-var Matrix = require('./Matrix');
+var Cell = require('./Cell');
 
-var Board = function Board(idContainer, matrices){
+var Board = function Board(document, idContainer, cells){
 	this.containerElem = document.querySelector(idContainer);
-	this.matrices = [];
+	this.cells = [];
 	this.resolved = false;
 	this.selectedCellIndex = null;
 	this.selectedMatrixIndex = null;
 	this.selectedMatrix = null;
 	this.selectedValue = null;
 
-	for (var i = 0; i < 9; i++) {
-		if (typeof matrices != 'undefined' && matrices[i] !== null) {
-			this.matrices.push(new Matrix(matrices[i]));
+	for (var i = 0; i < 81; i++) {
+		if (typeof cells != 'undefined' && cells[i] !== null) {
+			this.cells.push(new Cell(cells[i]));
 		} else {
-			this.matrices.push(new Matrix());
+			this.cells.push(new Cell());
 		}		
 	}
 };
@@ -30,7 +30,7 @@ Board.prototype.getCurrentColumnValues = function getCurrentColumnValues() {
 	var validMatrices = [indexColumn, indexColumn + 3, indexColumn + 6];
 	var validCells = [indexRow, indexRow + 3, indexRow + 6];
 
-	this.matrices.forEach(function(matrix, count) {
+	this.cells.forEach(function(matrix, count) {
 		if (validMatrices.indexOf(count) < 0) {
 			return;
 		}
@@ -55,7 +55,7 @@ Board.prototype.getCurrentRowValues = function getCurrentRowValues() {
 	var validMatrices = [index, index + 1, index + 2];
 	var validCells = [rowIndex, rowIndex + 1, rowIndex + 2];
 
-	this.matrices.forEach(function(matrix, count) {
+	this.cells.forEach(function(matrix, count) {
 		if (validMatrices.indexOf(count) < 0) {
 			return;
 		}
@@ -82,7 +82,7 @@ Board.prototype.getValue = function getValue(col, row) {
 	var indexMatrix = parseInt(row / 3) * 3 + parseInt(col / 3);
 	var indexCell = (row % 3) * 3 + (col % 3);
 
-	return this.matrices[indexMatrix].getValue(indexCell);
+	return this.cells[indexMatrix].getValue(indexCell);
 };
 
 Board.prototype.setValue = function setValue(col, row, value) {
@@ -92,11 +92,11 @@ Board.prototype.setValue = function setValue(col, row, value) {
 	var indexMatrix = parseInt(row / 3) * 3 + parseInt(col / 3);
 	var indexCell = (row % 3) * 3 + (col % 3);
 
-	if (typeof this.matrices[indexMatrix] === 'undefined') {
+	if (typeof this.cells[indexMatrix] === 'undefined') {
 		throw new Error('Invalid row/column given. Provide numbers between 1 - 9');
 	}
 
-	var matrix = this.matrices[indexMatrix];
+	var matrix = this.cells[indexMatrix];
 	
 	try {
 		matrix.setValue(indexCell, value);
@@ -106,11 +106,16 @@ Board.prototype.setValue = function setValue(col, row, value) {
 };
 
 Board.prototype.updateView = function updateView() {
-	var css = this.selectedValue !== null ? 'current-selected-value-' + this.selectedValue + '"' : '';
-	var html = '<div class="sudoku-board ' + css + '">';
+	var css = this.selectedValue !== null ? ' current-selected-value-' + this.selectedValue + '"' : '';
+	var html = '<div class="sudoku-board' + css + '">';
 
-	this.matrices.forEach(function(matrix, index) {
-		html += matrix.getHtml(index);
+	this.cells.forEach(function(cell, index) {
+		var row = parseInt(parseInt(index / 9) / 3);
+		var column = parseInt((index % 9) / 3);
+		var matrixIndex = column + row * 3;
+		var css = (matrixIndex % 2) == 0 ? 'm-odd' : '';
+
+		html += cell.getHtml(css);
 	});
 	html += '</div>';
 
@@ -134,12 +139,12 @@ Board.prototype.selectCell = function selectCell(cellElem) {
 
 	this.selectedCellIndex = parseInt(cellIndex);
 	this.selectedMatrixIndex = parseInt(matrixIndex);
-	this.selectedMatrix = this.matrices[this.selectedMatrixIndex];
+	this.selectedMatrix = this.cells[this.selectedMatrixIndex];
 
-	this.matrices.forEach(function (matrix){
+	this.cells.forEach(function (matrix){
 		matrix.deselectAllCells();
 	});
-	this.matrices[this.selectedMatrixIndex].selectCell(this.selectedCellIndex, true);
+	this.cells[this.selectedMatrixIndex].selectCell(this.selectedCellIndex, true);
 };
 
 Board.prototype.setValueOnSelectedCell = function setValueOnSelectedCell(value) {
@@ -161,7 +166,7 @@ Board.prototype.clearSelectedCell = function clearSelectedCell() {
 
 Board.prototype.isComplete = function isComplete() {
 	var totalCells = 0;
-	this.matrices.forEach(function(matrix) {
+	this.cells.forEach(function(matrix) {
 		totalCells += matrix.getValues().length;
 	});
 

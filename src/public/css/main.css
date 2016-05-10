@@ -38,46 +38,47 @@ body {
   padding-top: 200px;
 }
 
-.sudoku-matrix {
-  position: relative;
-  overflow: auto;
-  margin: 0;
-}
-
-.sudoku-matrix:nth-child(odd) {
-  background-color: #DEDEDE;
-}
-
-.sudoku-matrix:nth-child(1),
-.sudoku-matrix:nth-child(4),
-.sudoku-matrix:nth-child(7),
-.sudoku-matrix:nth-child(2),
-.sudoku-matrix:nth-child(5),
-.sudoku-matrix:nth-child(8) {
-  border-right: 3px solid black;
-}
-.sudoku-matrix:nth-child(1),
-.sudoku-matrix:nth-child(2),
-.sudoku-matrix:nth-child(3),
-.sudoku-matrix:nth-child(4),
-.sudoku-matrix:nth-child(5),
-.sudoku-matrix:nth-child(6) {
-  border-bottom: 3px solid black;
-}
-
-.sudoku-cell,
-.sudoku-matrix {
-  width: 32.92%;
+.sudoku-cell{
+  width: 11.11%;
   float: left;
-}
-
-.sudoku-cell {
   cursor: pointer;
   text-align: center;
   font-size: 26px;
   padding: 11px 0px;
   color: #222;
   box-sizing: border-box;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+.sudoku-cell:nth-child(9),
+.sudoku-cell:nth-child(18),
+.sudoku-cell:nth-child(27),
+.sudoku-cell:nth-child(36),
+.sudoku-cell:nth-child(45),
+.sudoku-cell:nth-child(54),
+.sudoku-cell:nth-child(63),
+.sudoku-cell:nth-child(72),
+.sudoku-cell:nth-child(81)
+{
+  border-right:none
+}
+
+.sudoku-cell:nth-child(92),
+.sudoku-cell:nth-child(93),
+.sudoku-cell:nth-child(94),
+.sudoku-cell:nth-child(95),
+.sudoku-cell:nth-child(96),
+.sudoku-cell:nth-child(97),
+.sudoku-cell:nth-child(98),
+.sudoku-cell:nth-child(99),
+.sudoku-cell:nth-child(100)
+{
+  border-bottom: none
+}
+
+.sudoku-cell.m-odd {
+  background-color: #DEDEDE;
 }
 
 .sudoku-cell.fixed {
@@ -85,27 +86,8 @@ body {
   color: black;
 }
 
-.sudoku-cell:nth-child(1),
-.sudoku-cell:nth-child(4),
-.sudoku-cell:nth-child(7),
-.sudoku-cell:nth-child(2),
-.sudoku-cell:nth-child(5),
-.sudoku-cell:nth-child(8) {
-  border-right: 1px solid black;
-}
-.sudoku-cell:nth-child(1),
-.sudoku-cell:nth-child(2),
-.sudoku-cell:nth-child(3),
-.sudoku-cell:nth-child(4),
-.sudoku-cell:nth-child(5),
-.sudoku-cell:nth-child(6) {
-  border-bottom: 1px solid black;
-}
-
-
-
 .sudoku-cell.selected,
-.sudoku-cell.selected:hover {
+.sudoku-cell:hover {
   background-color: yellow;
 }
 
@@ -186,24 +168,6 @@ body {
   .sudoku-cell {
     font-size: 60px;
     padding: 15px 0px;
-  }
-
-  .sudoku-matrix:nth-child(1),
-  .sudoku-matrix:nth-child(4),
-  .sudoku-matrix:nth-child(7),
-  .sudoku-matrix:nth-child(2),
-  .sudoku-matrix:nth-child(5),
-  .sudoku-matrix:nth-child(8) {
-    border-right: 5px solid black;
-  }
-
-  .sudoku-matrix:nth-child(1),
-  .sudoku-matrix:nth-child(2),
-  .sudoku-matrix:nth-child(3),
-  .sudoku-matrix:nth-child(4),
-  .sudoku-matrix:nth-child(5),
-  .sudoku-matrix:nth-child(6) {
-    border-bottom: 5px solid black;
   }
 
   .keyboard-key {
