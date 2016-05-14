@@ -9,7 +9,7 @@ describe('A cell', function() {
 
 	describe('#getValue', function () {
 		it('should keep a value', function() {
-			cell = new Cell(4);
+			cell = new Cell(0, 4);
 			expect(cell.getValue()).toEqual(4);
 		});
 
@@ -55,22 +55,22 @@ describe('A cell', function() {
 		});
 	});
 
-  describe('#render', function() {
+  describe('#getHtml', function() {
     it('should return a view of a cell', function() {
       cell.setValue(6);
-      expect( cell.render() ).toEqual('<div class="sudoku-cell">6</div>');
+      expect( cell.getHtml() ).toEqual('<div class="sudoku-cell value-6" data-index="0">6</div>');
     });
 
     it('should update the view when a cell is updated', function() {
       cell.setValue(8);
-      expect( cell.render() ).toEqual('<div class="sudoku-cell">8</div>');
+      expect( cell.getHtml() ).toEqual('<div class="sudoku-cell value-8" data-index="0">8</div>');
 
       cell.setValue(9);
-      expect( cell.render() ).toEqual('<div class="sudoku-cell">9</div>');
+      expect( cell.getHtml() ).toEqual('<div class="sudoku-cell value-9" data-index="0">9</div>');
     });
 
     it('should return a view of an empty cell', function() {
-      expect( (new Cell()).render() ).toEqual('<div class="sudoku-cell"></div>');
+      expect( (new Cell()).getHtml() ).toEqual('<div class="sudoku-cell" data-index="0">&nbsp;</div>');
     });
   });
 

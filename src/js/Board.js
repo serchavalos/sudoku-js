@@ -11,9 +11,9 @@ var Board = function Board(document, idContainer, cells){
 
 	for (var i = 0; i < 81; i++) {
 		if (typeof cells != 'undefined' && cells[i] !== null) {
-			this.cells.push(new Cell(cells[i]));
+			this.cells.push(new Cell(i, cells[i]));
 		} else {
-			this.cells.push(new Cell());
+			this.cells.push(new Cell(i));
 		}		
 	}
 };
@@ -128,23 +128,23 @@ Board.prototype.updateView = function updateView() {
 	}
 };
 
-Board.prototype.selectCell = function selectCell(cellElem) {
-	var value = parseInt(cellElem.innerText) || null;
-	var cellIndex = cellElem.dataset.index;
-	var matrixIndex = cellElem.parentElement.dataset.index;
+Board.prototype.selectCell = function selectCell(index) {
+	if (typeof this.cells[index] == 'undefined') {
+		return;
+	}
+
+	var selectedCell = this.cells[index];
+	var value = selectedCell.getValue();
 
 	if (value !== null && value !== '') {
 		this.selectedValue = value;
 	}
 
-	this.selectedCellIndex = parseInt(cellIndex);
-	this.selectedMatrixIndex = parseInt(matrixIndex);
-	this.selectedMatrix = this.cells[this.selectedMatrixIndex];
-
-	this.cells.forEach(function (matrix){
-		matrix.deselectAllCells();
+	this.cells.forEach(function (cell){
+		cell.setSelectAttr(false);
 	});
-	this.cells[this.selectedMatrixIndex].selectCell(this.selectedCellIndex, true);
+
+	selectedCell.setSelectAttr(true);
 };
 
 Board.prototype.setValueOnSelectedCell = function setValueOnSelectedCell(value) {

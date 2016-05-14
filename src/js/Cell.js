@@ -1,4 +1,5 @@
-var Cell = function Cell(value) {
+var Cell = function Cell(index, value) {
+	this.index = typeof index == 'undefined' ? 0 : index;
 	this.editable = true;
 	this.selected = false;
 
@@ -46,13 +47,14 @@ Cell.prototype.setSelectAttr = function setSelectAttr(select) {
 Cell.prototype.getHtml = function getHtml(baseCss) {
 	var text = this.value !== null ?  this.value : '&nbsp;';
 	var css = baseCss ? ' ' + baseCss : '';
+	var indexAttr = this.index !== null ? ' data-index="' + this.index + '"' : '';
 
 	css += (this.value !== null ? ' value-' + this.value : '')
 		+ (this.editable ? '' : ' fixed')
 		+ (this.selected ? ' selected' : '')
 	;
 
-	return '<div class="sudoku-cell' + css + '">' + text + '</div>';
+	return '<div class="sudoku-cell' + css + '"' + indexAttr + '>' + text + '</div>';
 };
 
 module.exports = Cell;

@@ -7,12 +7,10 @@ var GameController = function GameController(document, idBoard, boardValues, idK
   this.board = new Board(document, idBoard, boardValues);
   this.keyboard = new Keyboard(idKeyboard);
   this.detector = new DuplicationDetector();
-  this.allCells;
 };
 
 GameController.prototype.init = function init() {
   this.board.updateView();
-  this.allCells = document.querySelectorAll('.sudoku-cell');
 
   this.board.onClick( this.onBoardClicked.bind(this) );
   this.keyboard.onClick( this.onKeyboardClicked.bind(this) );
@@ -49,11 +47,11 @@ GameController.prototype.onBoardClicked = function onBoardClicked(event) {
   event.preventDefault();
 
   var cellElem;
-  if (!(cellElem = event.target).classList.contains('sudoku-cell')) {
+  if (!(cellElem = event.target).classList.contains('sudoku-cell') || !('index' in cellElem.dataset)) {
     return;
   }
 
-  this.board.selectCell(cellElem);
+  this.board.selectCell(cellElem.dataset.index);
   this.board.updateView();
 };
 

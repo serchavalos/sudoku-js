@@ -43,4 +43,18 @@ describe('A board', function() {
 		});
 	});
 
+	describe('#selectCell', function() {
+		it('should select only one cell', function() {
+			board.selectCell(0);
+			expect( board.cells[0].selected ).toEqual(true);
+
+			board.cells.slice(1).forEach(function(cell) {
+				expect( cell.selected ).toEqual(false);
+			});
+		});
+		it('should not select a cell with a wrong index', function() {
+			
+		});
+	});
+
 });
