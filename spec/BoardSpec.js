@@ -2,11 +2,14 @@ var Cell = require('../src/js/Cell.js');
 var Board = require('../src/js/Board.js');
 var fs = require('fs');
 
-describe('A board', function() {
-	var board, fullBoard, containerElem, documentMock;
+describe('Board', function() {
+	var board, fullBoard, containerElem, documentMock, callbacks = [];
 
 	beforeEach(function() {
 		containerElem = {
+			'addEventListener': function(eventName, callback) {
+				callbacks.push(callback);
+			},
 			'innerHTML': ''
 		};
 		documentMock = {
@@ -31,6 +34,10 @@ describe('A board', function() {
 			/* 8 */ null,null,null,null,null,null,null,null,null,
 			]
 		);
+	});
+
+	describe('#init', function() {
+		// REVIEW: missing
 	});
 
 	describe('#updateView', function () {

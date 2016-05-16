@@ -15,9 +15,21 @@ var Board = function Board(document, idContainer, cells){
 	}
 };
 
-Board.prototype.onClick = function onClick(callback) {
-  this.containerElem.addEventListener('click', callback);
+Board.prototype.init = function init() {
+	this.containerElem.addEventListener('click', (function(){
+		event.preventDefault();
+
+		var cellElem;
+		if (!(cellElem = event.target).classList.contains('sudoku-cell')
+			|| !('index' in cellElem.dataset)) {
+			return;
+	    }
+
+	    this.selectCell(cellElem.dataset.index);
+	    this.updateView();
+	}).bind(this));
 };
+
 
 Board.prototype.getCurrentColumnValues = function getCurrentColumnValues() {
 	var allValues = [];

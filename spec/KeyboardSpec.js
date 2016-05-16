@@ -20,36 +20,12 @@ describe('Board', function() {
         keyboard = new Keyboard(documentMock, 'id-container');
     });
 
-    describe('#onClick', function() {
+    describe('#init', function() {
         it('should add an event listener to the container element', function() {
             var callback = function(){};
-            keyboard.onClick(callback);
+            keyboard.init();
 
-            expect( keyboard.containerElem.eventListener ).toEqual(callback);
-        });
-    });
-
-    describe('#selectNumber', function() {
-        it('should give a value to "selectedNumber" property', function() {
-            var keyElem = {
-                'dataset': {'keyValue': 4}
-            };
-            keyboard.selectNumber(keyElem);
-
-            expect( keyboard.selectedNumber ).toEqual(4);
-        });
-    });
-
-    describe('#getSelectedNumber', function() {
-        it('should return a value', function() {
-            expect( keyboard.getSelectedNumber() ).toBe(null); // nothing selected yet
-
-            var keyElem = {
-                'dataset': {'keyValue': 6}
-            };
-            keyboard.selectNumber(keyElem);
-
-            expect( keyboard.getSelectedNumber() ).toEqual(6);
+            expect( typeof keyboard.containerElem.eventListener ).toEqual('function');
         });
     });
 });

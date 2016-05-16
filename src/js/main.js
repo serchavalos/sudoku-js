@@ -1,4 +1,6 @@
-var GameController = require('./GameController.js');
+var Board = require('./Board.js');
+var Keyboard = require('./Keyboard.js');
+var DuplicationDetector = require('./DuplicationDetector.js');
 
 var boardValues = [
     3, 9, 6, 4, 5, 1, 2, 7, 8,
@@ -12,6 +14,31 @@ var boardValues = [
     1, 6, 4, 5, 3, 7, 9, 8, null
 ];
 
-var controller = new GameController(document, '#board-container', boardValues, '#keyboard-container');
+var board = new Board(document, '#board-container', boardValues);
+var keyboard = new Keyboard(document, '#keyboard-container');
+var detector = new DuplicationDetector();
 
-controller.init();
+board.init();
+keyboard.init();
+
+// Setup events
+document.addEventListener('on-clear-pressed', function(event) {
+    board.clearSelectedCell();
+    board.updateView();
+});
+
+document.addEventListener('on-number-pressed', function(event) {
+  event.preventDefault();
+
+  var number = event.attr.pressedNumber;
+  board.setValueOnSelectedCell(number);
+
+  if (board.isComplete() && detector.hasDuplicatedValues(board) === false) {
+    board.markAsResolved();
+  }
+
+  board.updateView();
+});
+
+// Render view
+board.updateView();

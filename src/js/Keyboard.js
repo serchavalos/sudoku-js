@@ -1,24 +1,32 @@
 var Keyboard = function Keyboard(document, idContainer) {
-  this.containerElem = document.querySelector(idContainer);
-  this.selectedNumber = null;
-  this.keyElems = document.querySelectorAll(idContainer + ' .keyboard-key');
+    this.document = document;
+    this.containerElem = this.document.querySelector(idContainer);
+    this.selectedNumber = null;
+    this.keyElems = this.document.querySelectorAll(idContainer + ' .keyboard-key');
 };
 
-Keyboard.prototype.onClick = function onClick(callback) {
- this.containerElem.addEventListener('click', callback);
-};
+Keyboard.prototype.init = function init() {
+    this.containerElem.addEventListener('click', (function (event) {
+        event.preventDefault();
 
-Keyboard.prototype.selectNumber = function(keyElem) {
-  var keyValue = parseInt(keyElem.dataset.keyValue);
-  if (isNaN(keyValue) || keyValue === 0) {
-    return; // Invalid number received
-  }
+        var keyElem, event;
+        if (!(keyElem = event.target).classList.contains('keyboard-key')) {
+            return;
+        }
 
-  this.selectedNumber = keyValue;
-};
+        if (keyElem.dataset.keyValue === 'clear') {
+            event = new Event('on-clear-pressed');
+        } else {
+            event = new Event('on-number-pressed');
+            keyValue = parseInt(keyElem.dataset.keyValue);
+            // REVIEW: Add a proper pub/sub library here
+            event.attr = {
+                'pressedNumber': keyValue
+            };
+        }
 
-Keyboard.prototype.getSelectedNumber = function getSelectedNumber() {
-  return this.selectedNumber;
+        this.document.dispatchEvent(event);
+    }).bind(this));
 };
 
 module.exports = Keyboard;
