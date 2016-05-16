@@ -4,10 +4,7 @@ var Board = function Board(document, idContainer, cells){
 	this.containerElem = document.querySelector(idContainer);
 	this.cells = [];
 	this.resolved = false;
-	this.selectedCellIndex = null;
-	this.selectedMatrixIndex = null;
-	this.selectedMatrix = null;
-	this.selectedValue = null;
+	this.selectedIndex = null;
 
 	for (var i = 0; i < 81; i++) {
 		if (typeof cells != 'undefined' && cells[i] !== null) {
@@ -24,56 +21,43 @@ Board.prototype.onClick = function onClick(callback) {
 
 Board.prototype.getCurrentColumnValues = function getCurrentColumnValues() {
 	var allValues = [];
-	var currentColumn = (parseInt(this.selectedMatrixIndex % 3))*3 + (this.selectedCellIndex % 3);
-	var indexColumn = parseInt(currentColumn / 3);
-	var indexRow = currentColumn % 3;
-	var validMatrices = [indexColumn, indexColumn + 3, indexColumn + 6];
-	var validCells = [indexRow, indexRow + 3, indexRow + 6];
-
-	this.cells.forEach(function(matrix, count) {
-		if (validMatrices.indexOf(count) < 0) {
-			return;
-		}
-
-		var values = matrix.getValues();
-
-		validCells.forEach(function(cellIndex) {
-			if (typeof values[cellIndex] != 'undefined') {
-				allValues.push(values[cellIndex]);
-			}
-		});
-	});
+	var columnIndex = this.selectedIndex % 9;
+	while(columnIndex < 81) {
+		allValues.push(this.cells[columnIndex].getValue());
+		columnIndex += 9;
+	}
 
 	return allValues;
 };
 
 Board.prototype.getCurrentRowValues = function getCurrentRowValues() {
 	var allValues = [];
-	var currentRow = (parseInt(this.selectedMatrixIndex / 3))*3 + (this.selectedCellIndex % 3);
-	var index = parseInt(currentRow / 3) * 3;
-	var rowIndex = (currentRow % 3)*3;
-	var validMatrices = [index, index + 1, index + 2];
-	var validCells = [rowIndex, rowIndex + 1, rowIndex + 2];
+	var row = Math.floor(this.selectedIndex / 9);
+	var rowStart = row * 9;
+	var rowEnd = rowStart + 9;
 
-	this.cells.forEach(function(matrix, count) {
-		if (validMatrices.indexOf(count) < 0) {
-			return;
-		}
-
-		var values = matrix.getValues();
-
-		validCells.forEach(function(cellIndex) {
-			if (typeof values[cellIndex] != 'undefined') {
-				allValues.push(values[cellIndex]);
-			}
-		});
-	});
-
+	for (var i = rowStart; i < rowEnd; i++) {
+		allValues.push(this.cells[i].getValue());
+	}
 	return allValues;
 };
 
 Board.prototype.getCurrentMatrixValues = function getCurrentMatrixValues() {
-	return this.selectedMatrix.getValues();
+	var allValues = [];
+	var row = Math.floor(this.selectedIndex / 9);
+	var column = this.selectedIndex % 9;
+
+	var matrixStart = (parseInt(row / 3) * 3) * 9;
+	var matrixEnd = matrixStart + (3 * 9);
+	var columnShift = parseInt(column / 3) * 3;
+
+	for (var rowIndex = matrixStart; rowIndex < matrixEnd; rowIndex += 9) {
+		for (var index = rowIndex + columnShift, limit = index + 3; index < limit; index++) {
+			allValues.push(this.cells[index].getValue());
+		}
+	}
+
+	return allValues;
 };
 
 Board.prototype.getValue = function getValue(col, row) {
@@ -106,7 +90,12 @@ Board.prototype.setValue = function setValue(col, row, value) {
 };
 
 Board.prototype.updateView = function updateView() {
-	var css = this.selectedValue !== null ? ' current-selected-value-' + this.selectedValue + '"' : '';
+	var css = '';
+	if (this.selectedIndex !== null) {
+		var currentValue = this.cells[this.selectedIndex].getValue();	
+		var css = currentValue !== null ? ' current-selected-value-' + currentValue + '"' : '';
+	}
+
 	var html = '<div class="sudoku-board' + css + '">';
 
 	this.cells.forEach(function(cell, index) {
@@ -133,12 +122,9 @@ Board.prototype.selectCell = function selectCell(index) {
 		return;
 	}
 
-	var selectedCell = this.cells[index];
+	this.selectedIndex = parseInt(index);
+	var selectedCell = this.getSelectedCell();
 	var value = selectedCell.getValue();
-
-	if (value !== null && value !== '') {
-		this.selectedValue = value;
-	}
 
 	this.cells.forEach(function (cell){
 		cell.setSelectAttr(false);
@@ -148,33 +134,37 @@ Board.prototype.selectCell = function selectCell(index) {
 };
 
 Board.prototype.setValueOnSelectedCell = function setValueOnSelectedCell(value) {
-	if (this.selectedMatrix === null || this.selectedCellIndex === null) {
-		return; // Ignore
+	if (this.selectedIndex === null) {
+		return;
 	}
 
-	this.selectedMatrix.setValue(this.selectedCellIndex, value);
-	this.selectedValue = value;
+	this.cells[this.selectedIndex].setValue(value);
 };
 
 Board.prototype.clearSelectedCell = function clearSelectedCell() {
-	if (this.selectedMatrix === null) {
+	if (this.selectedIndex === null) {
 		return; // Ignore
 	}
 
-	this.selectedMatrix.clearCell(this.selectedCellIndex);
+	this.getSelectedCell().clear();
 };
 
 Board.prototype.isComplete = function isComplete() {
-	var totalCells = 0;
-	this.cells.forEach(function(matrix) {
-		totalCells += matrix.getValues().length;
-	});
+	for (var i = 0, l = this.cells.length; i < l; i++) {
+		if (this.cells[i].getValue() === null) {
+			return false;
+		}
+	}
 
-	return totalCells === 81;
+	return true;
 };
 
 Board.prototype.markAsResolved = function markAsResolved() {
 	this.resolved = true;
+};
+
+Board.prototype.getSelectedCell = function getSelectedCell() {
+	return this.selectedIndex in this.cells ? this.cells[this.selectedIndex] : null;
 };
 
 module.exports = Board;

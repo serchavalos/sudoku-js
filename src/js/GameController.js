@@ -5,7 +5,7 @@ var DuplicationDetector = require('./DuplicationDetector.js');
 
 var GameController = function GameController(document, idBoard, boardValues, idKeyboard) {
   this.board = new Board(document, idBoard, boardValues);
-  this.keyboard = new Keyboard(idKeyboard);
+  this.keyboard = new Keyboard(document, idKeyboard);
   this.detector = new DuplicationDetector();
 };
 
@@ -34,9 +34,8 @@ GameController.prototype.onKeyboardClicked = function onKeyboardClicked(event) {
 
   var number = this.keyboard.getSelectedNumber();
   this.board.setValueOnSelectedCell(number);
-  this.detector.updateFromBoard(this.board);
 
-  if (this.board.isComplete() && this.detector.hasDuplicatedValues() === false) {
+  if (this.board.isComplete() && this.detector.hasDuplicatedValues(this.board) === false) {
     this.board.markAsResolved();
   }
 

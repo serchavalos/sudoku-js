@@ -1,21 +1,15 @@
-var DuplicationDetector = function DuplicationDetector() {
-  this.values = {
-    column: [],
-    row: [],
-    matrix: [],
+var DuplicationDetector = function DuplicationDetector() {};
+
+DuplicationDetector.prototype.hasDuplicatedValues = function hasDuplicatedValues(board) {
+  var values = {
+    column: board.getCurrentColumnValues(),
+    row: board.getCurrentRowValues(),
+    matrix: board.getCurrentMatrixValues(),
   };
-};
 
-DuplicationDetector.prototype.updateFromBoard = function updateFromBoard(board) {
-  this.values.column = board.getCurrentColumnValues();
-  this.values.row = board.getCurrentRowValues();
-  this.values.matrix = board.getCurrentMatrixValues();
-};
-
-DuplicationDetector.prototype.hasDuplicatedValues = function hasDuplicatedValues() {
-  for (name in this.values) {
-    if (this.values.hasOwnProperty(name)) {
-      if (this.hasDuplicated(this.values[name])) {
+  for (name in values) {
+    if (values.hasOwnProperty(name)) {
+      if (this.hasDuplicated(values[name])) {
         return true;
       }
     }

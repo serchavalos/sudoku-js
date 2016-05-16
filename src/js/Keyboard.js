@@ -1,4 +1,4 @@
-var Keyboard = function Keyboard(idContainer) {
+var Keyboard = function Keyboard(document, idContainer) {
   this.containerElem = document.querySelector(idContainer);
   this.selectedNumber = null;
   this.keyElems = document.querySelectorAll(idContainer + ' .keyboard-key');
@@ -19,16 +19,6 @@ Keyboard.prototype.selectNumber = function(keyElem) {
 
 Keyboard.prototype.getSelectedNumber = function getSelectedNumber() {
   return this.selectedNumber;
-};
-
-Keyboard.prototype.updateView = function updateView() {
-  var index = this.selectedNumber - 1;
-
-  Array.prototype.forEach.call(this.keyElems, function(keyElem) {
-    keyElem.classList.remove('selected');
-  });
-
-  this.keyElems[index].classList.add('selected');
 };
 
 module.exports = Keyboard;
