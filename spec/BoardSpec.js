@@ -6,20 +6,10 @@ describe('Board', function() {
 	var board, fullBoard, containerElem, documentMock, callbacks = [];
 
 	beforeEach(function() {
-		containerElem = {
-			'addEventListener': function(eventName, callback) {
-				callbacks.push(callback);
-			},
-			'innerHTML': ''
-		};
-		documentMock = {
-			'querySelector': function(){
-				return containerElem;
-			}
-		};
+		document.write('<html><body><div id="board-container" class="board-container"></div></body></html>');
 
 		board = new Board(
-			documentMock,
+			document,
 			'#board-container',
 			[
 			       /*  0  , 1  , 2  , 3  , 4  , 5  , 6  , 7  , 8  */
@@ -37,30 +27,22 @@ describe('Board', function() {
 	});
 
 	describe('#init', function() {
-		// REVIEW: missing
-	});
-
-	describe('#updateView', function () {
 		it('should return a view for board',  function() {
 			// REVIEW: There should be a better way to test a view
-			var expectedHtml = fs.readFileSync(__dirname + '/fixtures/board.html', 'utf-8');
-			board.updateView();
+			board.init();
+			containerElem = document.getElementById('board-container');
 
-			expect( containerElem.innerHTML ).toEqual(expectedHtml);
+			expect( containerElem.querySelectorAll('div.sudoku-cell').length ).toBe(81);
 		});
 	});
 
 	describe('#selectCell', function() {
 		it('should select only one cell', function() {
 			board.selectCell(0);
-			expect( board.cells[0].selected ).toBe(true);
+			expect( board.selectedIndex ).toBe(0);
 
-			board.cells.slice(1).forEach(function(cell) {
-				expect( cell.selected ).toBe(false);
-			});
-		});
-		it('should not select a cell with a wrong index', function() {
-			
+			board.selectCell(100);
+			expect( board.selectedIndex ).toBe(0);
 		});
 	});
 
@@ -76,9 +58,11 @@ describe('Board', function() {
 
 	describe('#getSelectedCell', function() {
 		it('should return the selected cell', function() {
-			board.selectCell(0);
+			board.selectCell(9);
+			var selectedCell = board.getSelectedCell();
 
-			expect( board.getSelectedCell().getHtml() ).toEqual('<div class="sudoku-cell selected" data-index="0">&nbsp;</div>');
+			expect( selectedCell.getValue() ).toBe(1);
+			expect( selectedCell.editable ).toBe(false);
 		});
 
 		it('should return null when nothing is selected', function() {
@@ -101,7 +85,7 @@ describe('Board', function() {
 			for (var i = 0, cells = []; i < 82; i++) {
 				cells.push(9); // Whatever value....
 			}
-			fullBoard = new Board(documentMock, '#board-container', cells);
+			fullBoard = new Board(document, '#board-container', cells);
 
 			expect( fullBoard.isComplete() ).toBe(true);
 		});

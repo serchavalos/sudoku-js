@@ -55,22 +55,26 @@ describe('A cell', function() {
 		});
 	});
 
-  describe('#getHtml', function() {
+  describe('#getElement', function() {
     it('should return a view of a cell', function() {
       cell.setValue(6);
-      expect( cell.getHtml() ).toEqual('<div class="sudoku-cell value-6" data-index="0">6</div>');
+      var html = cell.getElement().outerHTML;
+      expect( html ).toEqual('<div class="sudoku-cell m-odd value-6" data-index="0">6</div>');
     });
 
     it('should update the view when a cell is updated', function() {
       cell.setValue(8);
-      expect( cell.getHtml() ).toEqual('<div class="sudoku-cell value-8" data-index="0">8</div>');
+      var html = cell.getElement().outerHTML;
+      expect( html ).toEqual('<div class="sudoku-cell m-odd value-8" data-index="0">8</div>');
 
       cell.setValue(9);
-      expect( cell.getHtml() ).toEqual('<div class="sudoku-cell value-9" data-index="0">9</div>');
+      html = cell.getElement().outerHTML;
+      expect( html ).toEqual('<div class="sudoku-cell m-odd value-9" data-index="0">9</div>');
     });
 
     it('should return a view of an empty cell', function() {
-      expect( (new Cell()).getHtml() ).toEqual('<div class="sudoku-cell" data-index="0">&nbsp;</div>');
+      var html = (new Cell()).getElement().outerHTML;
+      expect( html ).toEqual('<div class="sudoku-cell m-odd" data-index="0">&nbsp;</div>');
     });
   });
 
