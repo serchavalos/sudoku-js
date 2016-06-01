@@ -166,20 +166,30 @@ body {
   }
 
   .sudoku-cell {
-    font-size: 60px;
-    padding: 15px 0px;
-  }
-
-  .keyboard-key {
-    width: 140px;
-    padding: 10px 0;
-    font-size: 52px;
-    border-radius: 9px;
-    box-shadow: 4px 4px #999;
+    font-size: 25px;
+    padding: 6px 0px;
   }
 
   .keyboard {
-    width: 460px;
-    padding-left: 150px;
+    position: relative;
+    width: 168px;
+    padding: inherit;
+    margin: 0 auto;
+    overflow: visible;
+  }
+
+  .keyboard-key {
+    width: 50px;
+    font-size: 18px;
+    border-radius: 5px;
+    box-shadow: 1px 2px #999;
+    margin: 3px;
+  }
+
+  .keyboard-key.clear-key {
+    position: absolute;
+    top: 0;
+    left: auto;
+    right: -55px;
   }
 }

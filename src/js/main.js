@@ -39,6 +39,3 @@ document.addEventListener('on-number-pressed', function(event) {
 
   board.updateView();
 });
-
-// Render view
-board.updateView();

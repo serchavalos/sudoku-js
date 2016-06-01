@@ -1,32 +1,45 @@
 var Cell = require('./Cell');
 
-var Board = function Board(document, idContainer, cells){
+var Board = function Board(document, idContainer, cellsValues){
+	this.boardElem = null;
 	this.containerElem = document.querySelector(idContainer);
 	this.cells = [];
 	this.resolved = false;
 	this.selectedIndex = null;
 
-	for (var i = 0; i < 81; i++) {
-		if (typeof cells != 'undefined' && cells[i] !== null) {
-			this.cells.push(new Cell(i, cells[i]));
+	for (var index = 0; index < 81; index++) {
+		if (typeof cellsValues != 'undefined' && cellsValues[index] !== null) {
+			this.cells.push(new Cell(index, cellsValues[index]));
 		} else {
-			this.cells.push(new Cell(i));
+			this.cells.push(new Cell(index));
 		}		
 	}
+
 };
 
 Board.prototype.init = function init() {
+	this.boardElem = document.createElement('div');
+	this.boardElem.classList.add('sudoku-board');
+	this.containerElem.appendChild(this.boardElem);
+
+	var cellListFragment = document.createDocumentFragment();
+	this.cells.forEach(function(cell) {
+		cellListFragment.appendChild(cell.getElement());
+	});
+	this.boardElem.appendChild(cellListFragment);
+
+
 	this.containerElem.addEventListener('click', (function(){
 		event.preventDefault();
 
 		var cellElem;
 		if (!(cellElem = event.target).classList.contains('sudoku-cell')
 			|| !('index' in cellElem.dataset)) {
-			return;
-	    }
+				return;
+	  }
 
-	    this.selectCell(cellElem.dataset.index);
-	    this.updateView();
+    this.selectCell(cellElem.dataset.index);
+    this.updateView();
 	}).bind(this));
 };
 
@@ -105,22 +118,17 @@ Board.prototype.updateView = function updateView() {
 	var css = '';
 	if (this.selectedIndex !== null) {
 		var currentValue = this.cells[this.selectedIndex].getValue();	
-		var css = currentValue !== null ? ' current-selected-value-' + currentValue + '"' : '';
+		var matches = this.boardElem.className.match(/current-selected-value-\d+/);
+		var currentCssClass = matches ? matches[0] : null;
 	}
 
-	var html = '<div class="sudoku-board' + css + '">';
+	if (currentCssClass) {
+		this.boardElem.classList.remove(currentCssClass);
+	}
 
-	this.cells.forEach(function(cell, index) {
-		var row = parseInt(parseInt(index / 9) / 3);
-		var column = parseInt((index % 9) / 3);
-		var matrixIndex = column + row * 3;
-		var css = (matrixIndex % 2) == 0 ? 'm-odd' : '';
-
-		html += cell.getHtml(css);
-	});
-	html += '</div>';
-
-	this.containerElem.innerHTML = html;
+	if (currentValue) {
+		this.boardElem.classList.add('current-selected-value-' + currentValue);
+	}
 
 	if (this.resolved === true) {
 		var wrapper = this.containerElem.parentNode;
@@ -135,14 +143,6 @@ Board.prototype.selectCell = function selectCell(index) {
 	}
 
 	this.selectedIndex = parseInt(index);
-	var selectedCell = this.getSelectedCell();
-	var value = selectedCell.getValue();
-
-	this.cells.forEach(function (cell){
-		cell.setSelectAttr(false);
-	});
-
-	selectedCell.setSelectAttr(true);
 };
 
 Board.prototype.setValueOnSelectedCell = function setValueOnSelectedCell(value) {
