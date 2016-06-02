@@ -2,6 +2,7 @@ var Cell = require('./Cell');
 
 var Board = function Board(idContainer, cellsValues, duplicationDetector){
   this.boardElem = null;
+  this.viewNeedsUpdate = false;
   this.containerElem = document.querySelector(idContainer);
   this.cells = [];
   this.resolved = false;
@@ -78,6 +79,10 @@ Board.prototype.getCurrentMatrixValues = function getCurrentMatrixValues() {
 };
 
 Board.prototype.updateView = function updateView() {
+  if (!this.viewNeedsUpdate) {
+    return;
+  }
+
   var css = '';
   if (this.selectedIndex !== null) {
     var currentValue = this.cells[this.selectedIndex].getValue();
@@ -98,14 +103,8 @@ Board.prototype.updateView = function updateView() {
     wrapper.innerHTML = '<div class="game-resolved-overlay">Completed!</div>' +
       wrapper.innerHTML;
   }
-};
 
-Board.prototype.selectCell = function selectCell(index) {
-  if (typeof this.cells[index] == 'undefined') {
-    return;
-  }
-
-  this.selectedIndex = parseInt(index);
+  this.viewNeedsUpdate = false;
 };
 
 Board.prototype.isComplete = function isComplete() {
@@ -118,17 +117,13 @@ Board.prototype.isComplete = function isComplete() {
   return true;
 };
 
-Board.prototype.markAsResolved = function markAsResolved() {
-  this.resolved = true;
-};
-
 Board.prototype.onClearKeyPressed = function onClearKeyPressed(topic) {
   if (this.selectedIndex === null) {
     return; // Ignore
   }
 
   this.cells[this.selectedIndex].clear();
-  this.updateView();
+  this.viewNeedsUpdate = true;
 };
 
 Board.prototype.onNumberKeyPressed = function onNumberKeyPressed(topic, pressedNumber) {
@@ -139,10 +134,10 @@ Board.prototype.onNumberKeyPressed = function onNumberKeyPressed(topic, pressedN
   this.cells[this.selectedIndex].setValue(pressedNumber);
 
   if (this.isComplete() && this.detector.hasDuplicatedValues(this) === false) {
-    this.markAsResolved();
+    this.resolved = true;
   }
 
-  this.updateView();
+  this.viewNeedsUpdate = true;
 };
 
 Board.prototype.onBoardClicked = function onBoardClicked(event) {
@@ -153,9 +148,8 @@ Board.prototype.onBoardClicked = function onBoardClicked(event) {
     || !('index' in cellElem.dataset)) {
       return;
   }
-
-  this.selectCell(cellElem.dataset.index);
-  this.updateView();
+  this.selectedIndex = parseInt(cellElem.dataset.index);
+  this.viewNeedsUpdate = true;
 };
 
 module.exports = Board;

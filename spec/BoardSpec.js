@@ -5,6 +5,9 @@ var fs = require('fs');
 
 describe('Board', function() {
   var board, fullBoard, containerElem;
+  var selectCell = function(index) {
+    return document.querySelector('div.sudoku-cell[data-index="' + index +'"]');
+  };
 
   beforeEach(function() {
     document.write('<html><body><div id="board-container" class="board-container"></div></body></html>');
@@ -24,25 +27,15 @@ describe('Board', function() {
       /* 8 */ null,null,null,null,null,null,null,null,null,
       ]
     );
+
+    board.init(PubSub);
   });
 
   describe('#init', function() {
     it('should return a view for board',  function() {
-      // REVIEW: There should be a better way to test a view
-      board.init(PubSub);
       containerElem = document.getElementById('board-container');
 
       expect( containerElem.querySelectorAll('div.sudoku-cell').length ).toBe(81);
-    });
-  });
-
-  describe('#selectCell', function() {
-    it('should select only one cell', function() {
-      board.selectCell(0);
-      expect( board.selectedIndex ).toBe(0);
-
-      board.selectCell(100);
-      expect( board.selectedIndex ).toBe(0);
     });
   });
 
@@ -63,10 +56,10 @@ describe('Board', function() {
 
   describe('#getCurrentColumnValues', function() {
     it('should return the current values of the selected column', function() {
-      board.selectCell(0);
+      selectCell(0).click();
       expect( board.getCurrentRowValues() ).toEqual([null,null,null,null,null,null,null,null,null]);
 
-      board.selectCell(40);
+      selectCell(40).click();
       expect( board.getCurrentRowValues() ).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
     });
 
@@ -74,10 +67,10 @@ describe('Board', function() {
 
   describe('#getCurrentRowValues', function() {
     it('should return the current values of the selected row', function() {
-      board.selectCell(0);
+      selectCell(0).click();
       expect( board.getCurrentColumnValues() ).toEqual([null, 1, null, 1, 1, 1, null, 1,null]);
 
-      board.selectCell(4);
+      selectCell(4).click();
       expect( board.getCurrentColumnValues() ).toEqual([null, 5, null, 5, 5, 5, null, 5, null]);
 
     });
@@ -86,22 +79,22 @@ describe('Board', function() {
 
   describe('#getCurrentMatrixValues', function() {
     it('should return the current values of the selected matrix', function() {
-      board.selectCell(10);
+      selectCell(9).click();
       expect( board.getCurrentMatrixValues() ).toEqual([null, null, null, 1, 2, 3, null, null, null]);
 
-      board.selectCell(0);
+      selectCell(0).click();
       expect( board.getCurrentMatrixValues() ).toEqual([null, null, null, 1, 2, 3, null, null, null]);
 
-      board.selectCell(19);
+      selectCell(19).click();
       expect( board.getCurrentMatrixValues() ).toEqual([null, null, null, 1, 2, 3, null, null, null]);
 
-      board.selectCell(30);
+      selectCell(30).click();
       expect( board.getCurrentMatrixValues() ).toEqual([4, 5, 6, 4, 5, 6, 4, 5, 6]);
 
-      board.selectCell(40);
+      selectCell(40).click();
       expect( board.getCurrentMatrixValues() ).toEqual([4, 5, 6, 4, 5, 6, 4, 5, 6]);
 
-      board.selectCell(50);
+      selectCell(50).click();
       expect( board.getCurrentMatrixValues() ).toEqual([4, 5, 6, 4, 5, 6, 4, 5, 6]);
     });
 

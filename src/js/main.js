@@ -21,3 +21,8 @@ var keyboard = new Keyboard('#keyboard-container');
 
 board.init(PubSub);
 keyboard.init(PubSub);
+
+(function render(){
+  board.updateView();
+  requestAnimationFrame(render);
+})();
