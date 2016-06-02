@@ -14,8 +14,8 @@ var boardValues = [
     1, 6, 4, 5, 3, 7, 9, 8, null
 ];
 
-var board = new Board(document, '#board-container', boardValues);
-var keyboard = new Keyboard(document, '#keyboard-container');
+var board = new Board('#board-container', boardValues);
+var keyboard = new Keyboard('#keyboard-container');
 var detector = new DuplicationDetector();
 
 board.init();

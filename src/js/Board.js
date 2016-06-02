@@ -1,6 +1,6 @@
 var Cell = require('./Cell');
 
-var Board = function Board(document, idContainer, cellsValues){
+var Board = function Board(idContainer, cellsValues){
 	this.boardElem = null;
 	this.containerElem = document.querySelector(idContainer);
 	this.cells = [];
@@ -12,7 +12,7 @@ var Board = function Board(document, idContainer, cellsValues){
 			this.cells.push(new Cell(index, cellsValues[index]));
 		} else {
 			this.cells.push(new Cell(index));
-		}		
+		}
 	}
 
 };
@@ -106,7 +106,7 @@ Board.prototype.setValue = function setValue(col, row, value) {
 	}
 
 	var matrix = this.cells[indexMatrix];
-	
+
 	try {
 		matrix.setValue(indexCell, value);
 	} catch (err) {
@@ -117,7 +117,7 @@ Board.prototype.setValue = function setValue(col, row, value) {
 Board.prototype.updateView = function updateView() {
 	var css = '';
 	if (this.selectedIndex !== null) {
-		var currentValue = this.cells[this.selectedIndex].getValue();	
+		var currentValue = this.cells[this.selectedIndex].getValue();
 		var matches = this.boardElem.className.match(/current-selected-value-\d+/);
 		var currentCssClass = matches ? matches[0] : null;
 	}

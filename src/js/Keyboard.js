@@ -1,8 +1,5 @@
-var Keyboard = function Keyboard(document, idContainer) {
-    this.document = document;
-    this.containerElem = this.document.querySelector(idContainer);
-    this.selectedNumber = null;
-    this.keyElems = this.document.querySelectorAll(idContainer + ' .keyboard-key');
+var Keyboard = function Keyboard(idContainer) {
+    this.containerElem = document.querySelector(idContainer);
 };
 
 Keyboard.prototype.init = function init() {
@@ -25,7 +22,7 @@ Keyboard.prototype.init = function init() {
             };
         }
 
-        this.document.dispatchEvent(event);
+        document.dispatchEvent(event);
     }).bind(this));
 };
 

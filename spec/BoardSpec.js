@@ -9,7 +9,6 @@ describe('Board', function() {
 		document.write('<html><body><div id="board-container" class="board-container"></div></body></html>');
 
 		board = new Board(
-			document,
 			'#board-container',
 			[
 			       /*  0  , 1  , 2  , 3  , 4  , 5  , 6  , 7  , 8  */
@@ -85,7 +84,7 @@ describe('Board', function() {
 			for (var i = 0, cells = []; i < 82; i++) {
 				cells.push(9); // Whatever value....
 			}
-			fullBoard = new Board(document, '#board-container', cells);
+			fullBoard = new Board('#board-container', cells);
 
 			expect( fullBoard.isComplete() ).toBe(true);
 		});
