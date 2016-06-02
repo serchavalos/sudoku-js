@@ -7,7 +7,7 @@ app.set('port', (process.env.PORT || 5000));
 app.engine('mustache', mustacheExpress());
 app.set('view engine', 'mustache');
 app.set('views', __dirname + '/views/');
-app.use(express.static(__dirname + '/public/'));
+app.use(express.static(__dirname + '/../public/'));
 
 app.get('/', function(req, res) {
   res.render('index');

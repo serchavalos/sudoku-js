@@ -1,4 +1,4 @@
 node_modules/*
-src/public/js/bundle.js
+public/js/bundle.js
 npm-debug.log
 
