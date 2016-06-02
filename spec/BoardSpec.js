@@ -1,7 +1,5 @@
-var Cell = require('../src/js/Cell.js');
 var Board = require('../src/js/Board.js');
 var PubSub = require('../src/js/PubSub.js');
-var fs = require('fs');
 
 describe('Board', function() {
   var board, fullBoard, containerElem;

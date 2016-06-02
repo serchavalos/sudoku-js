@@ -26,6 +26,7 @@ body {
 }
 
 .game-resolved-overlay {
+  display: none;
   position: absolute;
   width: 100%;
   background-color: rgba(92, 184, 92, 0.74);
@@ -36,6 +37,9 @@ body {
   font-size: 50px;
   font-style: italic;
   padding-top: 200px;
+}
+.game-resolved-overlay.visible {
+  display: block;
 }
 
 .sudoku-cell{
