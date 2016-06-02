@@ -1,4 +1,5 @@
 var Cell = require('./Cell');
+var Matrix = require('./Matrix');
 
 var Board = function Board(idContainer, cellsValues, PubSub){
   this.boardElem = null;
@@ -33,48 +34,6 @@ Board.prototype.init = function init() {
   this.containerElem.addEventListener('click', this.onBoardClicked.bind(this));
   this.pubSub.subscribe('on-clear-key-pressed', this.onClearKeyPressed.bind(this));
   this.pubSub.subscribe('on-number-key-pressed', this.onNumberKeyPressed.bind(this));
-};
-
-
-Board.prototype.getCurrentColumnValues = function getCurrentColumnValues() {
-  var allValues = [];
-  var columnIndex = this.selectedIndex % 9;
-  while(columnIndex < 81) {
-    allValues.push(this.cells[columnIndex].getValue());
-    columnIndex += 9;
-  }
-
-  return allValues;
-};
-
-Board.prototype.getCurrentRowValues = function getCurrentRowValues() {
-  var allValues = [];
-  var row = Math.floor(this.selectedIndex / 9);
-  var rowStart = row * 9;
-  var rowEnd = rowStart + 9;
-
-  for (var i = rowStart; i < rowEnd; i++) {
-    allValues.push(this.cells[i].getValue());
-  }
-  return allValues;
-};
-
-Board.prototype.getCurrentMatrixValues = function getCurrentMatrixValues() {
-  var allValues = [];
-  var row = Math.floor(this.selectedIndex / 9);
-  var column = this.selectedIndex % 9;
-
-  var matrixStart = (parseInt(row / 3) * 3) * 9;
-  var matrixEnd = matrixStart + (3 * 9);
-  var columnShift = parseInt(column / 3) * 3;
-
-  for (var rowIndex = matrixStart; rowIndex < matrixEnd; rowIndex += 9) {
-    for (var index = rowIndex + columnShift, limit = index + 3; index < limit; index++) {
-      allValues.push(this.cells[index].getValue());
-    }
-  }
-
-  return allValues;
 };
 
 Board.prototype.updateView = function updateView() {
@@ -132,7 +91,8 @@ Board.prototype.onNumberKeyPressed = function onNumberKeyPressed(topic, pressedN
   this.cells[this.selectedIndex].setValue(pressedNumber);
 
   if (this.isComplete()) {
-    this.pubSub.publish('on-board-completed', this);
+    var matrix = new Matrix(this._getCellValues(), this.selectedIndex);
+    this.pubSub.publish('on-board-completed', matrix);
   }
 
   this.viewNeedsUpdate = true;
@@ -148,6 +108,13 @@ Board.prototype.onBoardClicked = function onBoardClicked(event) {
   }
   this.selectedIndex = parseInt(cellElem.dataset.index);
   this.viewNeedsUpdate = true;
+};
+
+Board.prototype._getCellValues = function() {
+  for (var index = 0, cellValues = [], length = this.cells.length; index++ < length;) {
+    cellValues.push(cell.getValue());
+  };
+  return cellValues;
 };
 
 module.exports = Board;
