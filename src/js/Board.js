@@ -77,35 +77,6 @@ Board.prototype.getCurrentMatrixValues = function getCurrentMatrixValues() {
   return allValues;
 };
 
-Board.prototype.getValue = function getValue(col, row) {
-  col = col - 1;
-  row = row - 1;
-  var indexMatrix = parseInt(row / 3) * 3 + parseInt(col / 3);
-  var indexCell = (row % 3) * 3 + (col % 3);
-
-  return this.cells[indexMatrix].getValue(indexCell);
-};
-
-Board.prototype.setValue = function setValue(col, row, value) {
-  col = col - 1;
-  row = row - 1;
-
-  var indexMatrix = parseInt(row / 3) * 3 + parseInt(col / 3);
-  var indexCell = (row % 3) * 3 + (col % 3);
-
-  if (typeof this.cells[indexMatrix] === 'undefined') {
-    throw new Error('Invalid row/column given. Provide numbers between 1 - 9');
-  }
-
-  var matrix = this.cells[indexMatrix];
-
-  try {
-    matrix.setValue(indexCell, value);
-  } catch (err) {
-    throw new Error('Invalid row/column given. Provide numbers between 1 - 9');
-  }
-};
-
 Board.prototype.updateView = function updateView() {
   var css = '';
   if (this.selectedIndex !== null) {
@@ -137,22 +108,6 @@ Board.prototype.selectCell = function selectCell(index) {
   this.selectedIndex = parseInt(index);
 };
 
-Board.prototype.setValueOnSelectedCell = function setValueOnSelectedCell(value) {
-  if (this.selectedIndex === null) {
-    return;
-  }
-
-  this.cells[this.selectedIndex].setValue(value);
-};
-
-Board.prototype.clearSelectedCell = function clearSelectedCell() {
-  if (this.selectedIndex === null) {
-    return; // Ignore
-  }
-
-  this.getSelectedCell().clear();
-};
-
 Board.prototype.isComplete = function isComplete() {
   for (var i = 0, l = this.cells.length; i < l; i++) {
     if (this.cells[i].getValue() === null) {
@@ -167,17 +122,21 @@ Board.prototype.markAsResolved = function markAsResolved() {
   this.resolved = true;
 };
 
-Board.prototype.getSelectedCell = function getSelectedCell(topic) {
-  return this.selectedIndex in this.cells ? this.cells[this.selectedIndex] : null;
-};
+Board.prototype.onClearKeyPressed = function onClearKeyPressed(topic) {
+  if (this.selectedIndex === null) {
+    return; // Ignore
+  }
 
-Board.prototype.onClearKeyPressed = function onClearKeyPressed() {
-  this.clearSelectedCell();
+  this.cells[this.selectedIndex].clear();
   this.updateView();
 };
 
 Board.prototype.onNumberKeyPressed = function onNumberKeyPressed(topic, pressedNumber) {
-  this.setValueOnSelectedCell(pressedNumber);
+  if (this.selectedIndex === null) {
+    return; // Ignore
+  }
+
+  this.cells[this.selectedIndex].setValue(pressedNumber);
 
   if (this.isComplete() && this.detector.hasDuplicatedValues(this) === false) {
     this.markAsResolved();

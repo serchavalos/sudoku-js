@@ -46,40 +46,6 @@ describe('Board', function() {
     });
   });
 
-  describe('#clearSelectedCell', function() {
-    it('should clear all the values in the cells', function() {
-      board.selectCell(0);
-      board.clearSelectedCell();
-      // REVIEW: We need a method to get cells from Board (probably get selected cell???)
-      // REVIEW: We need a method to get selectedIndex
-      expect( board.cells[board.selectedIndex].getValue() ).toBe(null);
-    });
-  });
-
-  describe('#getSelectedCell', function() {
-    it('should return the selected cell', function() {
-      board.selectCell(9);
-      var selectedCell = board.getSelectedCell();
-
-      expect( selectedCell.getValue() ).toBe(1);
-      expect( selectedCell.editable ).toBe(false);
-    });
-
-    it('should return null when nothing is selected', function() {
-      expect( board.getSelectedCell() ).toBe(null);
-    });
-  });
-
-  describe('#setValueOnSelectedCell', function() {
-    it('should return set the value on the selected cell', function() {
-      board.selectCell(0);
-      board.setValueOnSelectedCell(4);
-      var cell = board.getSelectedCell();
-
-      expect( cell.getValue() ).toEqual(4);
-    });
-  });
-
   describe('#isComplete', function() {
     it('should return true for a full board', function() {
       for (var i = 0, cells = []; i < 82; i++) {
