@@ -64,16 +64,6 @@ Board.prototype.updateView = function() {
   self.viewNeedsUpdate = false;
 };
 
-Board.prototype.isComplete = function() {
-  for (var i = 0, l = this.cells.length; i < l; i++) {
-    if (this.cells[i].getValue() === null) {
-      return false;
-    }
-  }
-
-  return true;
-};
-
 Board.prototype.onClearKeyPressed = function(topic) {
   if (this.selectedIndex === null) {
     return; // Ignore
@@ -90,7 +80,7 @@ Board.prototype.onNumberKeyPressed = function(topic, pressedNumber) {
 
   this.cells[this.selectedIndex].setValue(pressedNumber);
 
-  if (this.isComplete()) {
+  if (this._isComplete()) {
     var matrix = new Matrix(this._getCellValues(), this.selectedIndex);
     this.pubSub.publish('on-board-completed', matrix);
   }
@@ -115,6 +105,16 @@ Board.prototype._getCellValues = function() {
     cellValues.push(cell.getValue());
   };
   return cellValues;
+};
+
+Board.prototype._isComplete = function() {
+  for (var i = 0, l = this.cells.length; i < l; i++) {
+    if (this.cells[i].getValue() === null) {
+      return false;
+    }
+  }
+
+  return true;
 };
 
 module.exports = Board;
