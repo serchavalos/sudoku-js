@@ -86,8 +86,7 @@ body {
 }
 
 .sudoku-cell.fixed {
-  font-weight: bold;
-  color: black;
+  color: #888;
 }
 
 .sudoku-cell.selected,
