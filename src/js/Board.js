@@ -1,11 +1,12 @@
 var Cell = require('./Cell');
 
-var Board = function Board(idContainer, cellsValues){
+var Board = function Board(idContainer, cellsValues, duplicationDetector){
 	this.boardElem = null;
 	this.containerElem = document.querySelector(idContainer);
 	this.cells = [];
 	this.resolved = false;
 	this.selectedIndex = null;
+	this.detector = duplicationDetector;
 
 	for (var index = 0; index < 81; index++) {
 		if (typeof cellsValues != 'undefined' && cellsValues[index] !== null) {
@@ -17,7 +18,7 @@ var Board = function Board(idContainer, cellsValues){
 
 };
 
-Board.prototype.init = function init() {
+Board.prototype.init = function init(PubSub) {
 	this.boardElem = document.createElement('div');
 	this.boardElem.classList.add('sudoku-board');
 	this.containerElem.appendChild(this.boardElem);
@@ -28,19 +29,10 @@ Board.prototype.init = function init() {
 	});
 	this.boardElem.appendChild(cellListFragment);
 
-
-	this.containerElem.addEventListener('click', (function(){
-		event.preventDefault();
-
-		var cellElem;
-		if (!(cellElem = event.target).classList.contains('sudoku-cell')
-			|| !('index' in cellElem.dataset)) {
-				return;
-	  }
-
-    this.selectCell(cellElem.dataset.index);
-    this.updateView();
-	}).bind(this));
+	// Setup events
+	this.containerElem.addEventListener('click', this.onBoardClicked.bind(this));
+	PubSub.subscribe('on-clear-key-pressed', this.onClearKeyPressed.bind(this));
+	PubSub.subscribe('on-number-key-pressed', this.onNumberKeyPressed.bind(this));
 };
 
 
@@ -175,8 +167,36 @@ Board.prototype.markAsResolved = function markAsResolved() {
 	this.resolved = true;
 };
 
-Board.prototype.getSelectedCell = function getSelectedCell() {
+Board.prototype.getSelectedCell = function getSelectedCell(topic) {
 	return this.selectedIndex in this.cells ? this.cells[this.selectedIndex] : null;
+};
+
+Board.prototype.onClearKeyPressed = function onClearKeyPressed() {
+	this.clearSelectedCell();
+	this.updateView();
+};
+
+Board.prototype.onNumberKeyPressed = function onNumberKeyPressed(topic, pressedNumber) {
+  this.setValueOnSelectedCell(pressedNumber);
+
+  if (this.isComplete() && this.detector.hasDuplicatedValues(this) === false) {
+    this.markAsResolved();
+  }
+
+  this.updateView();
+};
+
+Board.prototype.onBoardClicked = function onBoardClicked(event) {
+	event.preventDefault();
+
+	var cellElem;
+	if (!(cellElem = event.target).classList.contains('sudoku-cell')
+		|| !('index' in cellElem.dataset)) {
+			return;
+	}
+
+	this.selectCell(cellElem.dataset.index);
+	this.updateView();
 };
 
 module.exports = Board;

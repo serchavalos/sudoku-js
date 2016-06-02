@@ -2,7 +2,7 @@ var Keyboard = function Keyboard(idContainer) {
     this.containerElem = document.querySelector(idContainer);
 };
 
-Keyboard.prototype.init = function init() {
+Keyboard.prototype.init = function init(PubSub) {
     this.containerElem.addEventListener('click', (function (event) {
         event.preventDefault();
 
@@ -12,17 +12,14 @@ Keyboard.prototype.init = function init() {
         }
 
         if (keyElem.dataset.keyValue === 'clear') {
-            event = new Event('on-clear-pressed');
-        } else {
-            event = new Event('on-number-pressed');
-            keyValue = parseInt(keyElem.dataset.keyValue);
-            // REVIEW: Add a proper pub/sub library here
-            event.attr = {
-                'pressedNumber': keyValue
-            };
+            PubSub.publish('on-clear-key-pressed');
+            return;
         }
 
-        document.dispatchEvent(event);
+        if (!isNaN(keyValue = parseInt(keyElem.dataset.keyValue))) {
+            PubSub.publish('on-number-key-pressed', keyValue);
+        }
+
     }).bind(this));
 };
 

@@ -14,7 +14,7 @@ gulp.task('test', function(done) {
 gulp.task('watch', function() {
   var stream = nodemon({
     script: './src/app.js',
-    watch: ['src/*', 'public/css/main.css'],
+    watch: ['src/js/*.js', 'public/css/main.css'],
     tasks: ['build']
   });
 
@@ -23,8 +23,9 @@ gulp.task('watch', function() {
 
 gulp.task('build', function() {
   return browserify(__dirname + '/src/js/main.js')
-		.bundle()
-		.pipe(source('bundle.js'))
+    .bundle()
+      .on('error', function(err) {console.log(err);})
+    .pipe(source('bundle.js'))
     .pipe(gulp.dest(__dirname + '/public/js/'))
   ;
 });

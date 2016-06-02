@@ -1,9 +1,10 @@
 var Cell = require('../src/js/Cell.js');
 var Board = require('../src/js/Board.js');
+var PubSub = require('../src/js/PubSub.js');
 var fs = require('fs');
 
 describe('Board', function() {
-	var board, fullBoard, containerElem, documentMock, callbacks = [];
+	var board, fullBoard, containerElem;
 
 	beforeEach(function() {
 		document.write('<html><body><div id="board-container" class="board-container"></div></body></html>');
@@ -28,7 +29,7 @@ describe('Board', function() {
 	describe('#init', function() {
 		it('should return a view for board',  function() {
 			// REVIEW: There should be a better way to test a view
-			board.init();
+			board.init(PubSub);
 			containerElem = document.getElementById('board-container');
 
 			expect( containerElem.querySelectorAll('div.sudoku-cell').length ).toBe(81);
