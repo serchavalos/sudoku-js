@@ -1,14 +1,14 @@
 var gulp = require('gulp');
-var jasmine = require('gulp-jasmine');
-var console = require('better-console');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var nodemon = require('gulp-nodemon');
+var karma = require('karma').Server;
 
-gulp.task('test', function() {
-	gulp.src('spec/*Spec.js')
-		.pipe(jasmine().on('error', function(){}))
-	;
+gulp.task('test', function(done) {
+	new karma({
+		configFile: __dirname + '/karma.conf.js',
+		singleRun: false,
+	}, done).start();
 });
 
 gulp.task('watch', function() {
@@ -20,17 +20,13 @@ gulp.task('watch', function() {
 
   return stream;
 });
-/*
-gulp.task('watch', function() {
-	var watcher = gulp.watch(['src/js/*', 'spec/*'], ['build', 'start']);
-	watcher.on('change', console.clear);
-});
-*/
-gulp.task('default', ['build', 'watch']);
 
-gulp.task('build', function(){
+gulp.task('build', function() {
   return browserify(__dirname + '/src/js/main.js')
-      .bundle()
-      .pipe(source('bundle.js'))
-      .pipe(gulp.dest(__dirname + '/src/public/js/'));
+		.bundle()
+		.pipe(source('bundle.js'))
+    .pipe(gulp.dest(__dirname + '/src/public/js/'))
+  ;
 });
+
+gulp.task('default', ['build', 'watch']);
