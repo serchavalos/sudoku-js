@@ -21,18 +21,20 @@ describe('Board', function() {
     });
   });
 
-  describe('#isComplete', function() {
+  // TODO: Let's remove this method (it's private, it should not be tested like
+  //       this) and add more where Board::_isComplete is executed
+  describe('#_isComplete', function() {
     it('should return true for a full board', function() {
       for (var i = 0, cells = []; i < 82; i++) {
         cells.push(9); // Whatever value....
       }
       fullBoard = new Board('#board-container', cells);
 
-      expect( fullBoard.isComplete() ).toBe(true);
+      expect( fullBoard._isComplete() ).toBe(true);
     });
 
     it('should return false for a uncomplete board', function() {
-      expect( board.isComplete() ).toBe(false);
+      expect( board._isComplete() ).toBe(false);
     });
   });
 });

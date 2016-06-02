@@ -15,10 +15,6 @@ describe('A Matrix', function() {
     /* 8 */ null,null,null,null,null,null,null,null,null,
     ];
 
-  beforeEach(function() {
-
-  });
-
   describe('#getCurrentColumnValues', function() {
     it('should return the current values of the selected column', function() {
       matrix = new Matrix(cellsValues, 0);

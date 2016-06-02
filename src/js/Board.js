@@ -49,11 +49,8 @@ Board.prototype.updateView = function() {
     var currentCssClass = matches ? matches[0] : null;
   }
 
-  if (currentCssClass) {
-    self.boardElem.classList.remove(currentCssClass);
-  }
-
   if (currentValue) {
+    self.boardElem.classList.remove(currentCssClass);
     self.boardElem.classList.add('current-selected-value-' + currentValue);
   }
 
@@ -101,8 +98,8 @@ Board.prototype.onBoardClicked = function(event) {
 };
 
 Board.prototype._getCellValues = function() {
-  for (var index = 0, cellValues = [], length = this.cells.length; index++ < length;) {
-    cellValues.push(cell.getValue());
+  for (var i = 0, cellValues = [], l = this.cells.length; i < l; i++) {
+    cellValues.push(this.cells[i].getValue());
   };
   return cellValues;
 };

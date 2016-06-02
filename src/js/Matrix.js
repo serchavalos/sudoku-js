@@ -1,4 +1,4 @@
-var Matrix = functionx) {
+var Matrix = function(cellsValues, selectedIndex) {
   this.cellsValues = cellsValues;
   this.selectedIndex = selectedIndex;
 };
