@@ -1,7 +1,7 @@
 var Cell = require('./Cell');
 var Matrix = require('./Matrix');
 
-var Board = function Board(idContainer, cellsValues, PubSub){
+var Board = function(idContainer, cellsValues, PubSub){
   this.boardElem = null;
   this.viewNeedsUpdate = false;
   this.containerElem = document.querySelector(idContainer);
@@ -19,7 +19,7 @@ var Board = function Board(idContainer, cellsValues, PubSub){
 
 };
 
-Board.prototype.init = function init() {
+Board.prototype.init = function() {
   this.boardElem = document.createElement('div');
   this.boardElem.classList.add('sudoku-board');
   this.containerElem.appendChild(this.boardElem);
@@ -36,7 +36,7 @@ Board.prototype.init = function init() {
   this.pubSub.subscribe('on-number-key-pressed', this.onNumberKeyPressed.bind(this));
 };
 
-Board.prototype.updateView = function updateView() {
+Board.prototype.updateView = function() {
   var self = this;
   if (!self.viewNeedsUpdate) {
     return;
@@ -64,7 +64,7 @@ Board.prototype.updateView = function updateView() {
   self.viewNeedsUpdate = false;
 };
 
-Board.prototype.isComplete = function isComplete() {
+Board.prototype.isComplete = function() {
   for (var i = 0, l = this.cells.length; i < l; i++) {
     if (this.cells[i].getValue() === null) {
       return false;
@@ -74,7 +74,7 @@ Board.prototype.isComplete = function isComplete() {
   return true;
 };
 
-Board.prototype.onClearKeyPressed = function onClearKeyPressed(topic) {
+Board.prototype.onClearKeyPressed = function(topic) {
   if (this.selectedIndex === null) {
     return; // Ignore
   }
@@ -83,7 +83,7 @@ Board.prototype.onClearKeyPressed = function onClearKeyPressed(topic) {
   this.viewNeedsUpdate = true;
 };
 
-Board.prototype.onNumberKeyPressed = function onNumberKeyPressed(topic, pressedNumber) {
+Board.prototype.onNumberKeyPressed = function(topic, pressedNumber) {
   if (this.selectedIndex === null) {
     return; // Ignore
   }
@@ -98,7 +98,7 @@ Board.prototype.onNumberKeyPressed = function onNumberKeyPressed(topic, pressedN
   this.viewNeedsUpdate = true;
 };
 
-Board.prototype.onBoardClicked = function onBoardClicked(event) {
+Board.prototype.onBoardClicked = function(event) {
   event.preventDefault();
 
   var cellElem;

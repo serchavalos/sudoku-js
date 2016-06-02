@@ -1,21 +1,21 @@
-var DuplicationDetector = function DuplicationDetector(elemSelector, PubSub) {
+var DuplicationDetector = function(elemSelector, PubSub) {
   this.overlay = document.querySelector(elemSelector);
   this.isResolved = false;
   this.pubSub = PubSub;
   this.viewNeedsUpdate = false;
 };
 
-DuplicationDetector.prototype.init = function init() {
+DuplicationDetector.prototype.init = function() {
   this.pubSub.subscribe('on-board-completed', this.onBoardCompleted.bind(this));
 };
 
-DuplicationDetector.prototype.onBoardCompleted = function onBoardCompleted(topic, board) {
+DuplicationDetector.prototype.onBoardCompleted = function(topic, board) {
   this.isResolved = !this._hasDuplicatedValues(board);
 
   this.viewNeedsUpdate = true;
 };
 
-DuplicationDetector.prototype.updateView = function updateView() {
+DuplicationDetector.prototype.updateView = function() {
   if (this.viewNeedsUpdate === false) {
     return;
   }
@@ -24,7 +24,7 @@ DuplicationDetector.prototype.updateView = function updateView() {
   this.viewNeedsUpdate = false;
 };
 
-DuplicationDetector.prototype._hasDuplicatedValues = function _hasDuplicatedValues(board) {
+DuplicationDetector.prototype._hasDuplicatedValues = function(board) {
   var values = {
     column: board.getCurrentColumnValues(),
     row: board.getCurrentRowValues(),
@@ -42,7 +42,7 @@ DuplicationDetector.prototype._hasDuplicatedValues = function _hasDuplicatedValu
   return false;
 };
 
-DuplicationDetector.prototype._hasDuplicated = function _hasDuplicated(values) {
+DuplicationDetector.prototype._hasDuplicated = function(values) {
   var uniqueValues = [];
 
   values.forEach(function(item) {

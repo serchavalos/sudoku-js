@@ -1,9 +1,9 @@
-var Matrix = function Matrix(cellsValues, selectedIndex) {
+var Matrix = functionx) {
   this.cellsValues = cellsValues;
   this.selectedIndex = selectedIndex;
 };
 
-Matrix.prototype.getCurrentColumnValues = function getCurrentColumnValues() {
+Matrix.prototype.getCurrentColumnValues = function() {
   var allValues = [];
   var columnIndex = this.selectedIndex % 9;
   while(columnIndex < 81) {
@@ -14,7 +14,7 @@ Matrix.prototype.getCurrentColumnValues = function getCurrentColumnValues() {
   return allValues;
 };
 
-Matrix.prototype.getCurrentRowValues = function getCurrentRowValues() {
+Matrix.prototype.getCurrentRowValues = function() {
   var allValues = [];
   var row = Math.floor(this.selectedIndex / 9);
   var rowStart = row * 9;
@@ -26,7 +26,7 @@ Matrix.prototype.getCurrentRowValues = function getCurrentRowValues() {
   return allValues;
 };
 
-Matrix.prototype.getCurrentMatrixValues = function getCurrentMatrixValues() {
+Matrix.prototype.getCurrentMatrixValues = function() {
   var allValues = [];
   var row = Math.floor(this.selectedIndex / 9);
   var column = this.selectedIndex % 9;

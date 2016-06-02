@@ -1,9 +1,9 @@
-var Keyboard = function Keyboard(idContainer, PubSub) {
+var Keyboard = function(idContainer, PubSub) {
     this.containerElem = document.querySelector(idContainer);
     this.pubSub = PubSub;
 };
 
-Keyboard.prototype.init = function init() {
+Keyboard.prototype.init = function() {
     this.containerElem.addEventListener('click', (function (event) {
         event.preventDefault();
 

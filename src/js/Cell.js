@@ -1,4 +1,4 @@
-var Cell = function Cell(index, value) {
+var Cell = function(index, value) {
   this.index = typeof index == 'undefined' ? 0 : index;
   this.editable = true;
   this.selected = false;
@@ -15,7 +15,7 @@ var Cell = function Cell(index, value) {
   this._updateView();
 };
 
-Cell.prototype.setValue = function setValue(value) {
+Cell.prototype.setValue = function(value) {
   if (this.editable === false) {
     throw new Error('This is a permanent cell');
   }
@@ -32,28 +32,28 @@ Cell.prototype.setValue = function setValue(value) {
   this._updateView();
 };
 
-Cell.prototype.clear = function clear(value) {
+Cell.prototype.clear = function(value) {
   this.value = null;
 };
 
-Cell.prototype.getValue = function getValue() {
+Cell.prototype.getValue = function() {
   return this.value;
 };
 
-Cell.prototype.isEmpty = function isEmpty() {
+Cell.prototype.isEmpty = function() {
   return (this.value === null);
 }
 
-Cell.prototype.setSelectAttr = function setSelectAttr(select) {
+Cell.prototype.setSelectAttr = function(select) {
   this.selected = !!(select);
   this._updateView();
 };
 
-Cell.prototype.getElement = function getElement() {
+Cell.prototype.getElement = function() {
   return this.element;
 };
 
-Cell.prototype._updateView = function _updateView() {
+Cell.prototype._updateView = function() {
   var row = parseInt(parseInt(this.index / 9) / 3);
   var column = parseInt((this.index % 9) / 3);
   var matrixIndex = column + row * 3;
