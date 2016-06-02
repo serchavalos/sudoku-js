@@ -1,13 +1,12 @@
 var Cell = require('./Cell');
 
-var Board = function Board(idContainer, cellsValues, duplicationDetector){
+var Board = function Board(idContainer, cellsValues, PubSub){
   this.boardElem = null;
   this.viewNeedsUpdate = false;
   this.containerElem = document.querySelector(idContainer);
   this.cells = [];
-  this.resolved = false;
   this.selectedIndex = null;
-  this.detector = duplicationDetector;
+  this.pubSub = PubSub;
 
   for (var index = 0; index < 81; index++) {
     if (typeof cellsValues != 'undefined' && cellsValues[index] !== null) {
@@ -19,7 +18,7 @@ var Board = function Board(idContainer, cellsValues, duplicationDetector){
 
 };
 
-Board.prototype.init = function init(PubSub) {
+Board.prototype.init = function init() {
   this.boardElem = document.createElement('div');
   this.boardElem.classList.add('sudoku-board');
   this.containerElem.appendChild(this.boardElem);
@@ -32,8 +31,8 @@ Board.prototype.init = function init(PubSub) {
 
   // Setup events
   this.containerElem.addEventListener('click', this.onBoardClicked.bind(this));
-  PubSub.subscribe('on-clear-key-pressed', this.onClearKeyPressed.bind(this));
-  PubSub.subscribe('on-number-key-pressed', this.onNumberKeyPressed.bind(this));
+  this.pubSub.subscribe('on-clear-key-pressed', this.onClearKeyPressed.bind(this));
+  this.pubSub.subscribe('on-number-key-pressed', this.onNumberKeyPressed.bind(this));
 };
 
 
@@ -79,32 +78,31 @@ Board.prototype.getCurrentMatrixValues = function getCurrentMatrixValues() {
 };
 
 Board.prototype.updateView = function updateView() {
-  if (!this.viewNeedsUpdate) {
+  var self = this;
+  if (!self.viewNeedsUpdate) {
     return;
   }
 
   var css = '';
-  if (this.selectedIndex !== null) {
-    var currentValue = this.cells[this.selectedIndex].getValue();
-    var matches = this.boardElem.className.match(/current-selected-value-\d+/);
+  if (self.selectedIndex !== null) {
+    var currentValue = self.cells[self.selectedIndex].getValue();
+    var matches = self.boardElem.className.match(/current-selected-value-\d+/);
     var currentCssClass = matches ? matches[0] : null;
   }
 
   if (currentCssClass) {
-    this.boardElem.classList.remove(currentCssClass);
+    self.boardElem.classList.remove(currentCssClass);
   }
 
   if (currentValue) {
-    this.boardElem.classList.add('current-selected-value-' + currentValue);
+    self.boardElem.classList.add('current-selected-value-' + currentValue);
   }
 
-  if (this.resolved === true) {
-    var wrapper = this.containerElem.parentNode;
-    wrapper.innerHTML = '<div class="game-resolved-overlay">Completed!</div>' +
-      wrapper.innerHTML;
-  }
+  self.cells.forEach(function(cell, index) {
+    cell.setSelectAttr(index === self.selectedIndex);
+  });
 
-  this.viewNeedsUpdate = false;
+  self.viewNeedsUpdate = false;
 };
 
 Board.prototype.isComplete = function isComplete() {
@@ -133,8 +131,8 @@ Board.prototype.onNumberKeyPressed = function onNumberKeyPressed(topic, pressedN
 
   this.cells[this.selectedIndex].setValue(pressedNumber);
 
-  if (this.isComplete() && this.detector.hasDuplicatedValues(this) === false) {
-    this.resolved = true;
+  if (this.isComplete()) {
+    this.pubSub.publish('on-board-completed', this);
   }
 
   this.viewNeedsUpdate = true;

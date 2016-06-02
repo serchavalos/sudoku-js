@@ -19,9 +19,9 @@ describe('Keyboard', function() {
 
             var keyNine = document.querySelector('#keyboard-container li[data-key-value="9"]');
             var keyClear = document.querySelector('#keyboard-container li[data-key-value="clear"]');
-            var keyboard = new Keyboard('#keyboard-container');
+            var keyboard = new Keyboard('#keyboard-container', PubSub);
 
-            keyboard.init(PubSub);
+            keyboard.init();
 
             keyNine.click();
             expect( PubSub.publish ).toHaveBeenCalledWith('on-number-key-pressed', 9);

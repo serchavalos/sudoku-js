@@ -1,8 +1,9 @@
-var Keyboard = function Keyboard(idContainer) {
+var Keyboard = function Keyboard(idContainer, PubSub) {
     this.containerElem = document.querySelector(idContainer);
+    this.pubSub = PubSub;
 };
 
-Keyboard.prototype.init = function init(PubSub) {
+Keyboard.prototype.init = function init() {
     this.containerElem.addEventListener('click', (function (event) {
         event.preventDefault();
 
@@ -12,12 +13,12 @@ Keyboard.prototype.init = function init(PubSub) {
         }
 
         if (keyElem.dataset.keyValue === 'clear') {
-            PubSub.publish('on-clear-key-pressed');
+            this.pubSub.publish('on-clear-key-pressed');
             return;
         }
 
         if (!isNaN(keyValue = parseInt(keyElem.dataset.keyValue))) {
-            PubSub.publish('on-number-key-pressed', keyValue);
+            this.pubSub.publish('on-number-key-pressed', keyValue);
         }
 
     }).bind(this));

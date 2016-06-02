@@ -46,6 +46,7 @@ Cell.prototype.isEmpty = function isEmpty() {
 
 Cell.prototype.setSelectAttr = function setSelectAttr(select) {
   this.selected = !!(select);
+  this._updateView();
 };
 
 Cell.prototype.getElement = function getElement() {

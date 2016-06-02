@@ -15,14 +15,25 @@ var boardValues = [
     1, 6, 4, 5, 3, 7, 9, 8, null
 ];
 
-var detector = new DuplicationDetector();
-var board = new Board('#board-container', boardValues, detector);
-var keyboard = new Keyboard('#keyboard-container');
+var detector = new DuplicationDetector('.game-resolved-overlay', PubSub);
+var board = new Board('#board-container', boardValues, PubSub);
+var keyboard = new Keyboard('#keyboard-container', PubSub);
 
-board.init(PubSub);
-keyboard.init(PubSub);
+detector.init();
+board.init();
+keyboard.init();
+
+document.addEventListener('keyup', function(event) {
+  if (isNaN(parseInt(event.key))) {
+    return;
+  }
+  var number = parseInt(event.key);
+  PubSub.publish('on-number-key-pressed', number);
+});
 
 (function render(){
   board.updateView();
+  detector.updateView();
+
   requestAnimationFrame(render);
 })();
