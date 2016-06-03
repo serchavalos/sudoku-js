@@ -89,6 +89,11 @@ body {
   color: #888;
 }
 
+.sudoku-cell.fixed.selected {
+  color: black;
+  background-color: #E95B5B;
+}
+
 .sudoku-cell.selected,
 .sudoku-cell:hover {
   background-color: yellow;
