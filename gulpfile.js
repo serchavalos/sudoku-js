@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var browserify = require('browserify');
+var babelify = require('babelify');
 var source = require('vinyl-source-stream');
 var nodemon = require('gulp-nodemon');
 var karma = require('karma').Server;
@@ -23,8 +24,9 @@ gulp.task('watch', function() {
 
 gulp.task('build', function() {
   return browserify(__dirname + '/src/js/main.js')
+    .transform(babelify)
     .bundle()
-      .on('error', function(err) {console.log(err);})
+    .on('error', function(err) {console.log("Error: " + err.message); })
     .pipe(source('bundle.js'))
     .pipe(gulp.dest(__dirname + '/public/js/'))
   ;

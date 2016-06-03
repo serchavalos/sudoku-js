@@ -23,11 +23,12 @@ detector.init();
 board.init();
 keyboard.init();
 
-document.addEventListener('keyup', function(event) {
-  if (isNaN(parseInt(event.key))) {
+document.addEventListener('keyup', event => {
+  var keyCode = event.keyCode;
+  if (keyCode < 48 || keyCode > 57) {
     return;
   }
-  var number = parseInt(event.key);
+  var number = keyCode - 48;
   PubSub.publish('on-number-key-pressed', number);
 });
 
