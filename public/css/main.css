@@ -42,17 +42,40 @@ body {
   display: block;
 }
 
-.sudoku-cell{
+.sudoku-cell {
   width: 11.11%;
   float: left;
   cursor: pointer;
   text-align: center;
   font-size: 26px;
-  padding: 11px 0px;
   color: #222;
   box-sizing: border-box;
   border-right: 1px solid black;
   border-bottom: 1px solid black;
+}
+
+.sudoku-cell > span {
+  margin: 11px 0;
+  display: block;
+}
+
+.sudoku-cell.multiple > span {
+  margin: 4px 0 4px 0;
+  float: left;
+  width: 33%;
+  font-size: 10px;
+}
+
+.sudoku-cell.multiple > span:nth-child(1),
+.sudoku-cell.multiple > span:nth-child(2),
+.sudoku-cell.multiple > span:nth-child(3) {
+  margin-top: 2px;
+}
+
+.sudoku-cell.multiple > span:nth-child(7),
+.sudoku-cell.multiple > span:nth-child(8),
+.sudoku-cell.multiple > span:nth-child(9) {
+  margin-bottom: 2px;
 }
 
 .sudoku-cell:nth-child(9),
@@ -175,7 +198,16 @@ body {
 
   .sudoku-cell {
     font-size: 25px;
-    padding: 6px 0px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .sudoku-cell > span {
+    margin: 6px 0;
+  }
+
+  .sudoku-cell.multiple > span {
+    margin: 1px 0;
   }
 
   .keyboard {

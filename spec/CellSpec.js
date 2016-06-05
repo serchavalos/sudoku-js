@@ -25,14 +25,6 @@ describe('A cell', () => {
 		});
 	});
 
-	describe('#isEmpty', () => {
-		it('should indicate if it is empty', () => {
-			expect(cell.isEmpty()).toBe(true);
-			cell.setValue(2);
-			expect(cell.isEmpty()).toBe(false);
-		});
-	});
-
 	describe('#setValue', () => {
 		it('should throw an exception if set value is not a number', () => {
 			expect(() => {
@@ -59,22 +51,24 @@ describe('A cell', () => {
     it('should return a view of a cell', () => {
       cell.setValue(6);
       var html = cell.getElement().outerHTML;
-      expect( html ).toEqual('<div class="sudoku-cell m-odd value-6" data-index="0">6</div>');
+      expect( html ).toEqual('<div class="sudoku-cell m-odd value-6" data-index="0"><span>6</span></div>');
     });
 
     it('should update the view when a cell is updated', () => {
       cell.setValue(8);
       var html = cell.getElement().outerHTML;
-      expect( html ).toEqual('<div class="sudoku-cell m-odd value-8" data-index="0">8</div>');
+      expect( html ).toEqual('<div class="sudoku-cell m-odd value-8" data-index="0"><span>8</span></div>');
 
-      cell.setValue(9);
+      cell.setValue(9); // Now there are values 8 and 9
       html = cell.getElement().outerHTML;
-      expect( html ).toEqual('<div class="sudoku-cell m-odd value-9" data-index="0">9</div>');
+      expect( html ).toEqual('<div class="sudoku-cell m-odd multiple" data-index="0">'
+      + '<span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span>'
+      + '<span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span><span>8</span><span>9</span></div>');
     });
 
     it('should return a view of an empty cell', () => {
       var html = (new Cell()).getElement().outerHTML;
-      expect( html ).toEqual('<div class="sudoku-cell m-odd" data-index="0">&nbsp;</div>');
+      expect( html ).toEqual('<div class="sudoku-cell m-odd" data-index="0"><span>&nbsp;</span></div>');
     });
   });
 

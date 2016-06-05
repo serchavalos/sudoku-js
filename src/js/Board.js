@@ -43,11 +43,11 @@ class Board {
       return;
     }
 
-    let css = '', currentValue = null;
+    let css = '', currentValue = null, currentCssClass;
     if (self.selectedIndex !== null) {
-      let currentValue = self.cells[self.selectedIndex].getValue();
+      currentValue = self.cells[self.selectedIndex].getValue();
       let matches = self.boardElem.className.match(/current-selected-value-\d+/);
-      let currentCssClass = matches ? matches[0] : null;
+      currentCssClass = matches ? matches[0] : null;
     }
 
     if (currentValue) {
@@ -89,11 +89,15 @@ class Board {
   onBoardClicked (event) {
     event.preventDefault();
 
-    let cellElem;
-    if (!(cellElem = event.target).classList.contains('sudoku-cell')
-      || !('index' in cellElem.dataset)) {
+    let cellElem = event.target;
+    while (cellElem.classList.contains('sudoku-cell') === false ) {
+      cellElem = cellElem.parentNode;
+    }
+
+    if (!('index' in cellElem.dataset)) {
         return;
     }
+
     this.selectedIndex = parseInt(cellElem.dataset.index);
     this.viewNeedsUpdate = true;
   }

@@ -1,5 +1,6 @@
 class Cell {
   constructor (index = 0, value) {
+    this.value = null;
     this.index = index;
     this.editable = true;
     this.selected = false;
@@ -10,7 +11,6 @@ class Cell {
       this.editable = false;
     } catch (err) {
       // Ignore it.
-      this.value = null;
     }
 
     this._updateView();
@@ -29,7 +29,24 @@ class Cell {
       throw new Error('Invalid value given. Enter a number between 1 and 9');
     }
 
-    this.value = value;
+    if (this.value === null) {
+      this.value = value;
+    } else if (typeof this.value === 'object') {
+      if (value in this.value) {
+        delete(this.value[value]);
+        if (Object.keys(this.value).length === 1) {
+          this.value = parseInt(Object.keys(this.value).pop());
+        }
+      } else {
+        this.value[value] = value;
+      }
+    } else {
+      let valueObj = {}
+      valueObj[value] = value;
+      valueObj[this.value] = this.value;
+      this.value = valueObj;
+    }
+
     this._updateView();
   }
 
@@ -38,12 +55,8 @@ class Cell {
   };
 
   getValue () {
-    return this.value;
+    return typeof this.value == 'number' ? this.value : null;
   };
-
-  isEmpty () {
-    return (this.value === null);
-  }
 
   setSelectAttr (select) {
     this.selected = !!(select);
@@ -63,11 +76,25 @@ class Cell {
     if ((matrixIndex % 2) == 0) cssClasses.push('m-odd');
     if (!this.editable) cssClasses.push('fixed');
     if (this.selected) cssClasses.push('selected');
-    if (this.value) cssClasses.push('value-' + this.value);
+    if (typeof this.value == 'number') cssClasses.push('value-' + this.value);
+    if (this.value && typeof this.value == 'object') cssClasses.push('multiple');
 
     this.element.className = cssClasses.join(' ');
     this.element.dataset.index = this.index;
-    this.element.innerHTML = this.value !== null ?  this.value : '&nbsp;';
+
+    if (this.value === null) {
+      this.element.innerHTML = `<span>&nbsp;</span>`;
+    } else if (typeof this.value === 'object') {
+
+      let html = '';
+      for (let i = 1; i < 10; i++) {
+        let value = this.value[i] || '&nbsp;';
+        html += `<span>${value}</span>`;
+      }
+      this.element.innerHTML = html;
+    } else if (this.value !== null) {
+      this.element.innerHTML = `<span>${this.value}</span>`;
+    }
   }
 }
 
