@@ -1,6 +1,6 @@
 var Matrix = require('../src/js/Matrix.js');
 
-describe('A Matrix', function() {
+describe('A Matrix', () => {
   var matrix, cellsValues =
     [
            /*  0  , 1  , 2  , 3  , 4  , 5  , 6  , 7  , 8  */
@@ -15,8 +15,8 @@ describe('A Matrix', function() {
     /* 8 */ null,null,null,null,null,null,null,null,null,
     ];
 
-  describe('#getCurrentColumnValues', function() {
-    it('should return the current values of the selected column', function() {
+  describe('#getCurrentColumnValues', () => {
+    it('should return the current values of the selected column', () => {
       matrix = new Matrix(cellsValues, 0);
       expect( matrix.getCurrentRowValues() ).toEqual([null,null,null,null,null,null,null,null,null]);
 
@@ -26,8 +26,8 @@ describe('A Matrix', function() {
 
   });
 
-  describe('#getCurrentRowValues', function() {
-    it('should return the current values of the selected row', function() {
+  describe('#getCurrentRowValues', () => {
+    it('should return the current values of the selected row', () => {
       matrix = new Matrix(cellsValues, 0);
       expect( matrix.getCurrentColumnValues() ).toEqual([null, 1, null, 1, 1, 1, null, 1,null]);
 
@@ -38,8 +38,8 @@ describe('A Matrix', function() {
 
   });
 
-  describe('#getCurrentMatrixValues', function() {
-    it('should return the current values of the selected matrix', function() {
+  describe('#getCurrentMatrixValues', () => {
+    it('should return the current values of the selected matrix', () => {
       matrix = new Matrix(cellsValues, 9);
       expect( matrix.getCurrentMatrixValues() ).toEqual([null, null, null, 1, 2, 3, null, null, null]);
 

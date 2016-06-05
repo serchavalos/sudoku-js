@@ -1,9 +1,9 @@
 var Board = require('../src/js/Board.js');
-var PubSub = require('../src/js/PubSub.js');
+var PubSub = require('../src/js/vendor/PubSub.js');
 
-describe('Board', function() {
+describe('Board', () => {
   var board, fullBoard, containerElem;
-  beforeEach(function() {
+  beforeEach(() => {
     document.write('<html><body><div id="board-container" class="board-container"></div></body></html>');
 
     for (var i = 0, cells = []; i < 82; i++) {
@@ -13,8 +13,8 @@ describe('Board', function() {
     board.init();
   });
 
-  describe('#init', function() {
-    it('should return a view for board',  function() {
+  describe('#init', () => {
+    it('should return a view for board',  () => {
       containerElem = document.getElementById('board-container');
 
       expect( containerElem.querySelectorAll('div.sudoku-cell').length ).toBe(81);
@@ -23,8 +23,8 @@ describe('Board', function() {
 
   // TODO: Let's remove this method (it's private, it should not be tested like
   //       this) and add more where Board::_isComplete is executed
-  describe('#_isComplete', function() {
-    it('should return true for a full board', function() {
+  describe('#_isComplete', () => {
+    it('should return true for a full board', () => {
       for (var i = 0, cells = []; i < 82; i++) {
         cells.push(9); // Whatever value....
       }
@@ -33,7 +33,7 @@ describe('Board', function() {
       expect( fullBoard._isComplete() ).toBe(true);
     });
 
-    it('should return false for a uncomplete board', function() {
+    it('should return false for a uncomplete board', () => {
       expect( board._isComplete() ).toBe(false);
     });
   });

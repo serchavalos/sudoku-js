@@ -1,8 +1,8 @@
 var Keyboard = require('../src/js/Keyboard.js');
-var PubSub = require('../src/js/PubSub.js');
+var PubSub = require('../src/js/vendor/PubSub.js');
 
-describe('Keyboard', function() {
-    beforeEach(function() {
+describe('Keyboard', () => {
+    beforeEach(() => {
         document.write(
           '<html><body>'
             + '<div id="keyboard-container">'
@@ -13,8 +13,8 @@ describe('Keyboard', function() {
         );
     });
 
-    describe('#init', function() {
-        it('should add an event listener to the container element', function() {
+    describe('#init', () => {
+        it('should add an event listener to the container element', () => {
             spyOn(PubSub, 'publish');
 
             var keyNine = document.querySelector('#keyboard-container li[data-key-value="9"]');

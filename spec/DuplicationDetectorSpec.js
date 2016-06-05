@@ -1,5 +1,5 @@
 var DuplicationDetector = require('../src/js/DuplicationDetector.js');
-var PubSub = require('../src/js/PubSub.js');
+var PubSub = require('../src/js/vendor/PubSub.js');
 
 describe('A DuplicationDetector', function() {
 

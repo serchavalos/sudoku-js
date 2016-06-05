@@ -8,7 +8,7 @@ class Keyboard {
     this.containerElem.addEventListener('click', event => {
       event.preventDefault();
 
-      var keyElem, keyValue;
+      let keyElem, keyValue;
       if (!(keyElem = event.target).classList.contains('keyboard-key')) {
         return;
       }

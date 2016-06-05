@@ -1,9 +1,9 @@
-var Board = require('./Board.js');
-var Keyboard = require('./Keyboard.js');
-var DuplicationDetector = require('./DuplicationDetector.js');
-var PubSub = require('./PubSub.js');
+let Board = require('./Board.js');
+let Keyboard = require('./Keyboard.js');
+let DuplicationDetector = require('./DuplicationDetector.js');
+let PubSub = require('./vendor/PubSub.js');
 
-var boardValues = [
+let boardValues = [
     3, 9, 6, 4, 5, 1, null, 7, 8,
     8, 5, 1, 7, null, 3, 6, 4, 9,
     4, null, 7, 6, 8, 9, 5, 3, 1,
@@ -15,20 +15,20 @@ var boardValues = [
     1, 6, 4, 5, 3, 7, 9, 8, null
 ];
 
-var detector = new DuplicationDetector('.game-resolved-overlay', PubSub);
-var board = new Board('#board-container', boardValues, PubSub);
-var keyboard = new Keyboard('#keyboard-container', PubSub);
+let detector = new DuplicationDetector('.game-resolved-overlay', PubSub);
+let board = new Board('#board-container', boardValues, PubSub);
+let keyboard = new Keyboard('#keyboard-container', PubSub);
 
 detector.init();
 board.init();
 keyboard.init();
 
 document.addEventListener('keyup', event => {
-  var keyCode = event.keyCode;
+  let keyCode = event.keyCode;
   if (keyCode < 48 || keyCode > 57) {
     return;
   }
-  var number = keyCode - 48;
+  let number = keyCode - 48;
   PubSub.publish('on-number-key-pressed', number);
 });
 
