@@ -45,5 +45,9 @@
     "karma-requirejs": "^1.0.0",
     "requirejs": "^2.2.0",
     "watchify": "^3.7.0"
+  },
+  "engines": {
+    "node": "v4.2.1",
+     "npm":"^3.9.5"
   }
 }
