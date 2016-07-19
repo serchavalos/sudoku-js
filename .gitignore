@@ -1,3 +1,6 @@
 vanilla-js/node_modules/*
 vanilla-js/public/js/bundle.js
 vanilla-js/npm-debug.log
+
+react/bundle.js
+react/node_modules/*

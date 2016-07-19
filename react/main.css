@@ -1,0 +1,235 @@
+body {
+  font-family: arial;
+  padding: 0;
+  margin: 0;
+}
+
+.wrapper {
+  position: relative;
+
+  width: 500px;
+  margin: 0 auto;
+}
+
+.board-container {
+  position: relative;
+  padding: 0;
+}
+
+.sudoku-board {
+  width: 100%;
+  overflow: auto;
+  border: 3px solid black;
+  margin-left: 0;
+  border-radius: 25px;
+  box-sizing: border-box;
+}
+
+.game-resolved-overlay {
+  display: none;
+  position: absolute;
+  width: 100%;
+  background-color: rgba(92, 184, 92, 0.74);
+  height: 100%;
+  z-index: 100;
+  text-align: center;
+  color: white;
+  font-size: 50px;
+  font-style: italic;
+  padding-top: 200px;
+}
+.game-resolved-overlay.visible {
+  display: block;
+}
+
+.sudoku-cell {
+  width: 11.11%;
+  float: left;
+  cursor: pointer;
+  text-align: center;
+  font-size: 26px;
+  color: #222;
+  box-sizing: border-box;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+.sudoku-cell > span {
+  margin: 11px 0;
+  display: block;
+}
+
+.sudoku-cell.multiple > span {
+  margin: 4px 0 4px 0;
+  float: left;
+  width: 33%;
+  font-size: 10px;
+}
+
+.sudoku-cell.multiple > span:nth-child(1),
+.sudoku-cell.multiple > span:nth-child(2),
+.sudoku-cell.multiple > span:nth-child(3) {
+  margin-top: 2px;
+}
+
+.sudoku-cell.multiple > span:nth-child(7),
+.sudoku-cell.multiple > span:nth-child(8),
+.sudoku-cell.multiple > span:nth-child(9) {
+  margin-bottom: 2px;
+}
+
+.sudoku-cell:nth-child(9),
+.sudoku-cell:nth-child(18),
+.sudoku-cell:nth-child(27),
+.sudoku-cell:nth-child(36),
+.sudoku-cell:nth-child(45),
+.sudoku-cell:nth-child(54),
+.sudoku-cell:nth-child(63),
+.sudoku-cell:nth-child(72),
+.sudoku-cell:nth-child(81)
+{
+  border-right:none
+}
+
+.sudoku-cell:nth-child(92),
+.sudoku-cell:nth-child(93),
+.sudoku-cell:nth-child(94),
+.sudoku-cell:nth-child(95),
+.sudoku-cell:nth-child(96),
+.sudoku-cell:nth-child(97),
+.sudoku-cell:nth-child(98),
+.sudoku-cell:nth-child(99),
+.sudoku-cell:nth-child(100)
+{
+  border-bottom: none
+}
+
+.sudoku-cell.m-odd {
+  background-color: #DEDEDE;
+}
+
+.sudoku-cell.fixed {
+  color: #888;
+}
+
+.sudoku-cell.fixed.selected {
+  color: black;
+  background-color: #E95B5B;
+}
+
+.sudoku-cell.selected,
+.sudoku-cell:hover {
+  background-color: yellow;
+}
+
+.sudoku-cell:nth-child(1),
+.sudoku-cell:nth-child(2),
+.sudoku-cell:nth-child(3) {
+  border-top: none;
+}
+
+.sudoku-cell:nth-child(1),
+.sudoku-cell:nth-child(4),
+.sudoku-cell:nth-child(7) {
+  border-left: none;
+}
+
+.keyboard {
+  overflow: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+
+  width: 185px;
+  padding-left: 60px;
+}
+
+.keyboard-key {
+  background-color: white;
+  display: block;
+  list-style: none;
+  float: left;
+  border: 1px solid #999;
+  text-align: center;
+  margin: 5px;
+  cursor: pointer;
+  color: #333;
+  box-sizing: border-box;
+  position: relative;
+
+  width: 51px;
+  padding: 5px 0;
+  font-size: 15px;
+  border-radius: 4px;
+  box-shadow: 2px 2px #999;
+}
+
+.keyboard-key.selected {
+  background-color: #ccc;
+}
+
+.keyboard-key.clear-key {
+  position: absolute;
+  left: 0;
+}
+
+.current-selected-value-1 .value-1,
+.current-selected-value-2 .value-2,
+.current-selected-value-3 .value-3,
+.current-selected-value-4 .value-4,
+.current-selected-value-5 .value-5,
+.current-selected-value-6 .value-6,
+.current-selected-value-7 .value-7,
+.current-selected-value-8 .value-8,
+.current-selected-value-9 .value-9 {
+  background-color: yellow;
+}
+
+@media (max-width: 992px) {
+  .wrapper {
+    width: auto;
+    margin: 0;
+  }
+
+  .sudoku-board {
+    border: 5px solid black;
+  }
+
+  .sudoku-cell {
+    font-size: 25px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .sudoku-cell > span {
+    margin: 6px 0;
+  }
+
+  .sudoku-cell.multiple > span {
+    margin: 1px 0;
+  }
+
+  .keyboard {
+    position: relative;
+    width: 168px;
+    padding: inherit;
+    margin: 0 auto;
+    overflow: visible;
+  }
+
+  .keyboard-key {
+    width: 50px;
+    font-size: 18px;
+    border-radius: 5px;
+    box-shadow: 1px 2px #999;
+    margin: 3px;
+  }
+
+  .keyboard-key.clear-key {
+    position: absolute;
+    top: 0;
+    left: auto;
+    right: -55px;
+  }
+}
